@@ -1,0 +1,342 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <body>
+
+        <ui:composition template="./../index.xhtml">
+
+            <ui:define name="content">
+                <style>
+                    #fMunicipios\:main-panel td{
+                        border: none !important;
+                    }
+
+                    #fMunicipios\:main-panel tr{
+
+                        border: none !important;
+                    }
+                    #fMunicipiosModificar\:main-panel td{
+                        border: none !important;
+                    }
+
+                    #fMunicipiosModificar\:main-panel tr{
+                        border: none !important;
+                    }
+                </style>
+                <p:outputPanel id="padding">
+                    <p:growl id="msgs"/>
+                    <p:outputPanel rendered="#{municipioBean.showData}">
+
+                        <p:panel id="custom" header="Administrar municipios" style="margin-bottom:20px; width: 100%; margin:  auto">
+                            <h:panelGrid columns="2" cellpadding="10">
+
+                                <h:panelGrid columns="1" cellpadding="10">
+
+                                    <h:form id="fData">
+
+                                        <p:fieldset>
+                                            <p:commandButton title="Nuevo municipio" id="add" style="#{municipioBean.btnNuevo}" actionListener="#{municipioBean.enableShowCreate}" update=":padding"    icon="fa fa-plus" />
+
+                                        </p:fieldset>
+                                        <p:dataTable   id="municipiosData"
+                                                       var="municipios" 
+                                                       value="#{municipioBean.listaMunicipio}"
+                                                       paginator="true"
+                                                       rows="10"
+                                                       widgetVar="companyTable"
+                                                       paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                       rowsPerPageTemplate="5,10,15"
+                                                       paginatorPosition="bottom"
+
+                                                       currentPageReportTemplate="Mostrando {startRecord}-{endRecord} de {totalRecords}"
+                                                       emptyMessage="No se encontraron municipios" rowIndexVar="No" >
+                                            >
+
+
+
+                                            <f:facet name="header">
+                                                <p:outputPanel>                                           
+                                                    <p:inputText id="globalFilter" onkeyup="PF('companyTable').filter()" style="width:150px" placeholder="Buscar"/>
+                                                </p:outputPanel>
+                                            </f:facet>
+
+
+                                            <p:column headerText="Nº" style=" width: 5%">  
+                                                <h:outputText value="#{No+1}"/>
+                                            </p:column>  
+
+                                            <p:column headerText="Departamento" style=" width: 43%" filterBy="#{municipios.TDepartamento.nombreDepartamento}" filterMatchMode="contains"  filterStyle="width: 100%" sortBy="#{municipios.TDepartamento.nombreDepartamento}" >
+                                                <h:outputText value="#{municipios.TDepartamento.nombreDepartamento}" />
+                                            </p:column>
+                                            <p:column headerText="Municipio" style=" width: 43%" filterBy="#{municipios.nombreMunicipio}" filterMatchMode="contains"  filterStyle="width: 100%" sortBy="#{municipios.nombreMunicipio}"  >
+                                                <h:outputText value="#{municipios.nombreMunicipio}" />
+                                            </p:column>
+
+                                            <p:column>
+
+
+
+                                                <p:splitButton  update=":padding"  oncomplete="PF('dlVer').show()" icon="fa fa-eye"  style="#{municipios.estadoMunicipio eq true? cuentaBean.btnDarDeAlta :  cuentaBean.btnDarDeBaja}" >
+                                                    <f:setPropertyActionListener  value="#{municipios}" target="#{municipioBean.municipioSeleccionado}"  />
+
+                                                    <p:menuitem  actionListener="#{municipioBean.enableShowUpdate}" update=":padding" icon=" fa fa-pencil-square-o" value="Modificar">
+
+                                                        <f:setPropertyActionListener  value="#{municipios}" target="#{municipioBean.municipioSeleccionado}"  />
+                                                        <f:setPropertyActionListener value="#{municipios.TDepartamento.idDepartamento}" target="#{municipioBean.idDepartamentoAuxiliar}" /> 
+                                                        <f:setPropertyActionListener value="#{municipios.nombreMunicipio}" target="#{municipioBean.nombreMunicipio}" /> 
+
+                                                    </p:menuitem>
+
+                                                    <p:menuitem rendered="#{municipios.estadoMunicipio}" update=":padding"  oncomplete="PF('dlBaja').show()" icon="fa fa-arrow-up" value="Dar de alta"    >
+                                                        <f:setPropertyActionListener value="#{municipios}" target="#{municipioBean.municipioSeleccionado}" />
+                                                    </p:menuitem>                                              
+                                                    <p:menuitem rendered="#{!municipios.estadoMunicipio}" update=":padding"  oncomplete="PF('dlAlta').show()" icon="fa fa-arrow-up" value="Dar de alta"    >
+                                                        <f:setPropertyActionListener value="#{municipios}" target="#{municipioBean.municipioSeleccionado}" />
+                                                    </p:menuitem>                                              
+                                                </p:splitButton> 
+
+
+
+
+
+
+                                            </p:column>
+                                            <f:facet name="footer">
+
+                                            </f:facet>
+                                        </p:dataTable>
+                                    </h:form>
+                                </h:panelGrid>
+                            </h:panelGrid>
+                        </p:panel>
+                        <p:dialog header="Datos del municipio" widgetVar="dlVer" modal="true"   visible="false"  resizable="true" width="50%" responsive="true" styleClass="ui-panelgrid-blank" appendTo="@(body)">
+                            <h:form target="_blank">
+                                <p:outputPanel id="dlVerArea"  >
+                                    <p:panelGrid id="pgVer"  style="width: 100%" >
+
+                                        <p:row>
+
+                                            <p:column>
+                                                <h:outputText value="Nombre:" />
+                                            </p:column>
+                                            <p:column>
+                                                <h:outputText value="#{municipioBean.municipioSeleccionado.nombreMunicipio}" />
+                                            </p:column>
+                                            <p:column>
+                                                <h:outputText value="Pertenece a: " />
+                                            </p:column>
+                                            <p:column>
+                                                <h:outputText value="#{municipioBean.municipioSeleccionado.TDepartamento.nombreDepartamento}" />
+                                            </p:column>
+
+                                        </p:row>
+                                        <p:row>
+                                            <p:column>
+                                                <h:outputText value="Estado: " />
+                                            </p:column>
+                                            <p:column colspan="3">
+                                                <h:outputText value="#{municipioBean.municipioSeleccionado.estadoMunicipio eq true? 'Activo':'Inactivo'}" />
+                                            </p:column>
+
+                                        </p:row>
+                                    </p:panelGrid>
+                                    <br></br>
+                                    <center>
+                                        <p:splitButton  update=":padding" value="Ver PDF"  ajax="false" icon="fa fa-eye"  >
+                                            <f:actionListener binding="#{municipioBean.verReporteMunicipio()}"/> 
+                                            <p:menuitem  ajax="false" update=":padding"  icon="fa fa-download" value="Descargar PDF">
+                                                <f:actionListener binding="#{municipioBean.verReporteMunicipioPDF()}"/> 
+                                            </p:menuitem>
+                                        </p:splitButton>
+                                    </center>
+                                </p:outputPanel>
+                            </h:form>
+                        </p:dialog>                                   
+                        <p:dialog header="Dar de baja" widgetVar="dlBaja" modal="true"   visible="false"  resizable="true" responsive="true" styleClass="ui-panelgrid-blank" appendTo="@(body)">
+                            <h:form target="_blank">
+                                <p:outputPanel id="dlDarDeBaja" style="text-align:center; width: 100%">
+                                    <p:panelGrid id="panelBaja" >
+
+                                        <h:outputText value="¿Desea dar de baja a este municipio?" />
+                                    </p:panelGrid>
+                                    <br></br>
+                                    <hr></hr>
+                                    <p:commandButton id="btnGuardarBaja" style="#{municipioBean.btnNuevo}" actionListener="#{municipioBean.darDeBaja}" update=":padding"  value="Si"> 
+                                    </p:commandButton>
+                                    <p:commandButton id="btnCancelBaja" style="#{municipioBean.btnCancelar}" actionListener="#{municipioBean.enableShowData}" update=":padding" value="No"> 
+                                    </p:commandButton>
+                                </p:outputPanel>
+                            </h:form>
+                        </p:dialog>
+                        <p:dialog header="Dar de alta" widgetVar="dlAlta" modal="true"   visible="false"  resizable="true" responsive="true" styleClass="ui-panelgrid-blank" appendTo="@(body)">
+                            <h:form>
+                                <p:outputPanel id="dlDarDealta" style="text-align:center; width: 100%">
+                                    <p:panelGrid id="panelAlta" > 
+
+                                        <h:outputText value="¿Desea dar de alta este municipio?" />
+
+                                    </p:panelGrid>
+                                    <br></br> 
+                                    <hr></hr>
+                                    <p:commandButton id="btnGuardarAlta" style="#{municipioBean.btnNuevo}" actionListener="#{municipioBean.darDeAlta}" update=":padding" value="Si"> 
+                                    </p:commandButton>
+                                    <p:commandButton id="btnCancelAlta" style="#{municipioBean.btnCancelar}" actionListener="#{municipioBean.enableShowData}" update=":padding" value="No"> 
+                                    </p:commandButton>
+                                </p:outputPanel>
+                            </h:form>
+                        </p:dialog>                       
+                    </p:outputPanel>
+                    <!-- Formulario Crear -->
+
+                    <p:outputPanel rendered="#{municipioBean.showCreate}">
+                        <h:form id="fMunicipios" >
+                            <p:panel id="basic" header="Agregar departamento"  style="width: 100%; margin: auto; margin-bottom: 20px">
+                                <p:panelGrid id="main-panel"  style="width: 100%; margin: auto;">
+                                    <p:row>
+                                        <p:column style="width:50%">
+                                            <h:outputText value="Departamento al que pertenece:"/>
+                                        </p:column>
+                                        <p:column style="width:50%">
+                                            <h:outputText value="Nombre:"/>
+                                        </p:column>
+                                    </p:row>
+                                    <p:row>
+                                        <p:column style="width:50%">
+                                            <p:selectOneMenu id="smDepartamento" value="#{municipioBean.municipios.TDepartamento.idDepartamento}" 
+                                                             effect="fade"  style="width:100%">
+                                                <f:selectItem itemLabel="[SELECCIONE]" itemValue="0"/>
+                                                <f:selectItems value="#{municipioBean.idepartamentoBo.listTDepartamento()}" var="l" itemLabel="#{l.nombreDepartamento}" itemValue="#{l.idDepartamento}" itemDisabled="#{!l.estadoDepartamento}"/>
+                                            </p:selectOneMenu>
+                                            <h:outputText value="#{municipioBean.msgDepartamento}" style=" color:  red; width: 50%"/>
+                                        </p:column>
+
+                                        <p:column >
+                                            <p:inputText placeholder="Introduzca el nombre del municipio" id="tNombre" value="#{municipioBean.municipios.nombreMunicipio}"  style="width:100%; text-transform:  uppercase">  </p:inputText>
+                                            <h:outputText value="#{municipioBean.msgNombre}" style=" color:  red; width: 50%"/>
+                                            <h:outputText value="#{municipioBean.msgNombreRepetido}" style=" color:  red; width: 50%"/>
+                                        </p:column>
+                                    </p:row>
+
+
+                                </p:panelGrid>
+
+                                <br></br>
+
+
+                                <center>
+                                    <div class="buttons">
+                                        <p:commandButton  value="Guardar" id="btnGuardar" icon="fa fa-check" style="#{municipioBean.btnCrear}" actionListener="#{municipioBean.validarFormulario}" update=":padding" > 
+                                        </p:commandButton>
+                                        <p:commandButton value="Limpiar" id="btnClean" style="#{municipioBean.btnLimpiar}"  update=":padding" actionListener="#{municipioBean.limpiar(0)}" class="clear" icon="fa fa-fw fa-minus"/>
+                                        <p:commandButton value="Cancelar" id="btnCancel" style="#{municipioBean.btnCancelar}" update=":padding" class="cancel" icon="fa fa-fw fa-close" actionListener="#{municipioBean.enableShowData}" />
+                                    </div>
+                                </center>
+                            </p:panel>
+                            <p:dialog header="Confirmar" widgetVar="pgGuardar" modal="true"  visible="#{municipioBean.estadoFormulario}" resizable="true" responsive="true" styleClass="ui-panelgrid-blank" appendTo="@(body)">
+                                <p:outputPanel style="text-align:center;">
+                                    <p:panelGrid>
+                                        <h:outputText value="¿Desea guardar este municipio?"/>
+                                    </p:panelGrid>
+                                    <br></br>
+                                    <hr></hr>
+                                    <center>
+                                        <p:commandButton style="#{empleadoBean.btnNuevo}" value="Si" actionListener="#{municipioBean.crear}"   oncomplete="PF('pgGuardar').hide()"  title="Cerrar" update=":padding">
+                                        </p:commandButton>
+                                        <p:commandButton oncomplete="PF('pgGuardar').hide()" style="#{municipioBean.btnCancelar}"  value="No"> 
+                                            <f:setPropertyActionListener value="#{false}" target="#{municipioBean.estadoFormulario}" />
+                                        </p:commandButton>
+                                    </center>
+                                </p:outputPanel>
+                            </p:dialog>
+                        </h:form>
+                    </p:outputPanel>
+
+                    <!-- actualizar -->
+
+                    <p:outputPanel rendered="#{municipioBean.showUpdate}">
+                        <h:form id="fMunicipiosModificar" >
+                            <p:panel id="basic" header="Modificar departamento"  style="width: 100%; margin: auto; margin-bottom: 20px">
+                                <p:panelGrid id="main-panel"  style="width: 100%; margin: auto;">
+                                    <p:row>
+                                        <p:column style="width:50%">
+                                            <h:outputText value="Departamento al que pertenece:"/>
+                                        </p:column>
+                                        <p:column style="width:50%">
+                                            <h:outputText value="Nombre:"/>
+                                        </p:column>
+                                    </p:row>
+                                    <p:row>
+                                        <p:column style="width:50%">
+                                            <p:selectOneMenu id="smDepartamento" value="#{municipioBean.idDepartamentoAuxiliar}" 
+                                                             effect="fade"  style="width:100%" filter="true" filterMatchMode="startsWith">
+                                                <f:selectItem itemLabel="[SELECCIONE]" itemValue="0"/>
+                                                <f:selectItems value="#{municipioBean.idepartamentoBo.listTDepartamento()}" var="l" itemLabel="#{l.nombreDepartamento}" itemValue="#{l.idDepartamento}" />
+                                            </p:selectOneMenu>
+                                            <h:outputText value="#{municipioBean.msgDepartamento}" style=" color:  red; width: 50%"/>
+                                        </p:column>
+                                        <p:column >
+                                            <p:inputText placeholder="Introduzca el nombre del municipio" id="tNombre" value="#{municipioBean.municipioSeleccionado.nombreMunicipio}"  style="width:100%; text-transform: uppercase">  </p:inputText>
+                                            <h:outputText value="#{municipioBean.msgNombre}" style=" color:  red; width: 50%"/>
+                                            <h:outputText value="#{municipioBean.msgNombreRepetido}" style=" color:  red; width: 50%"/>
+                                        </p:column>
+                                    </p:row>
+
+
+                                </p:panelGrid>
+                                <br></br>
+
+
+                                <center>
+                                    <div class="buttons">
+                                        <p:commandButton  value="Guardar" id="btnGuardar" icon="fa fa-check" style="#{municipioBean.btnCrear}" actionListener="#{municipioBean.validarFormularioModificar}" update=":padding" > 
+                                        </p:commandButton>
+
+                                        <p:commandButton value="Cancelar" id="btnCancel" style="#{municipioBean.btnCancelar}" update=":padding" class="cancel" icon="fa fa-fw fa-close" actionListener="#{municipioBean.limpiar(1)}" />
+                                    </div>
+                                </center>
+                            </p:panel>
+                            <p:dialog header="Confirmar" widgetVar="pgModificar" modal="true"  visible="#{municipioBean.estadoFormulario}" resizable="true" responsive="true" styleClass="ui-panelgrid-blank" appendTo="@(body)">
+                                <p:outputPanel style="text-align:center;">
+                                    <p:panelGrid>
+                                        <h:outputText value="¿Desea modificar este municipio?"/>
+                                    </p:panelGrid>
+                                    <br></br>
+                                    <hr></hr>
+                                    <center>
+                                        <p:commandButton style="#{municipioBean.btnNuevo}" value="Si" actionListener="#{municipioBean.modificar}"   oncomplete="PF('pgModificar').hide()"  title="Cerrar" update=":padding">
+                                        </p:commandButton>
+                                        <p:commandButton oncomplete="PF('pgModificar').hide()" style="#{municipioBean.btnCancelar}"  value="No"> 
+                                            <f:setPropertyActionListener value="#{false}" target="#{municipioBean.estadoFormulario}" />
+                                        </p:commandButton>
+                                    </center>
+                                </p:outputPanel>
+                            </p:dialog>
+                        </h:form>
+                    </p:outputPanel>
+
+
+
+                </p:outputPanel>
+
+                <!-- fin formulario crear-->
+
+            </ui:define>
+
+            <ui:define name="aux">
+                <script>
+                    $(document).ready(function () {
+                        $("#conf").addClass("active");
+                    });
+                </script>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

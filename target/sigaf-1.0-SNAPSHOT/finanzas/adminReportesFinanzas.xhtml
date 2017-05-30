@@ -1,0 +1,161 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./../index.xhtml">
+
+            <ui:define name="content">
+                <style>
+
+                    .borderHidden.ui-panelgrid>*>tr,
+                    .borderHidden.ui-panelgrid .ui-panelgrid-cell {
+                        border: none;
+                    }
+
+
+                </style>
+
+                <p:outputPanel id="padding"  > 
+                    <p:growl id="msgs"></p:growl>
+
+                    <h:form id="fReportesContabilidad" target="_blank">
+
+                        <p:panel id="pReportesContabilidad" header="Reportes finanzas"  style="width: 80%; margin: auto; margin-bottom: 20px">
+
+                            <p:fieldset style="margin-bottom:20px">
+                                <p:panelGrid id="pgReporte"  style="width: 100%; margin: auto;" styleClass="borderHidden" >   
+                                    <p:row>
+                                        <p:column style="width: 50%" >
+                                            <h:outputText value="Reporte:*"/>
+                                        </p:column>
+                                        <p:column style="width: 50%" >
+                                            <p:outputPanel id="opAdmi">
+                                                <h:outputText value="Estado:*"/>
+                                            </p:outputPanel>
+                                        </p:column>
+                                    </p:row>
+                                    <p:row>
+                                        <p:column>
+                                            <p:selectOneMenu id="sModulo"  style="width:100%"  value="#{reporteFinanzaBean.idReporte}">
+                                                <f:selectItem itemLabel="[Seleccione]" itemValue="0" />
+
+                                                <f:selectItem itemLabel="Cliente naturales" itemValue="1" />
+                                                <f:selectItem itemLabel="Cliente cooperativas" itemValue="2" />
+
+                                                <f:selectItem itemLabel="Listado de solicitudes para cooperativas" itemValue="3" />
+                                                
+                                                <f:selectItem itemLabel="Listado de solicitudes para personas naturales" itemValue="4" />
+                                             
+
+
+                                                
+                                                <f:selectItem itemLabel="Listado de creditos cooperativas" itemValue="5" />
+                                                <f:selectItem itemLabel="Listado de creditos personas" itemValue="6" />
+                                                
+                                                <f:selectItem itemLabel="Listado de asesorias" itemValue="7" />
+                                                <f:selectItem itemLabel="Listado de capacitaciones" itemValue="8" />
+
+
+                                                <p:ajax update=":padding"></p:ajax>
+
+                                            </p:selectOneMenu>
+                                        </p:column>
+                                        <p:column>
+                                            
+                                            <p:selectOneMenu rendered="#{reporteFinanzaBean.idReporte lt 3}"    value="#{reporteFinanzaBean.estadoReporte}"  style="width:100%" >
+                                                <f:selectItem itemLabel="[TODOS]" itemValue="0"/>
+                                              
+                                              
+                                            </p:selectOneMenu>
+                                            
+                                            <p:selectOneMenu rendered="#{reporteFinanzaBean.idReporte gt 2 and reporteFinanzaBean.idReporte lt 5  }"   value="#{reporteFinanzaBean.estadoReporte}"  style="width:100%" >
+                                                <f:selectItem itemLabel="[TODOS]" itemValue="0"/>
+                                                <f:selectItem itemLabel="Aprobadas" itemValue="1" /> 
+                                                <f:selectItem itemLabel="No aprobadas" itemValue="2" />
+                                              
+                                            </p:selectOneMenu>
+                                            
+                                            <p:selectOneMenu rendered="#{reporteFinanzaBean.idReporte gt 4 and reporteFinanzaBean.idReporte lt 7 }"  id="sEstado"  value="#{reporteFinanzaBean.estadoReporte}"  style="width:100%" >
+                                                
+                                                <f:selectItem itemLabel="Finalizados" itemValue="1" /> 
+                                                <f:selectItem itemLabel="Aprobado/Proceso" itemValue="2" />
+                                                <f:selectItem itemLabel="Aprobado/Ejecutandose" itemValue="3" />
+                                              
+                                            </p:selectOneMenu>
+
+
+                                            <p:selectOneMenu rendered="#{reporteFinanzaBean.idReporte gt 6}"   value="#{reporteFinanzaBean.estadoReporte}"  style="width:100%" >
+                                                <f:selectItem itemLabel="[TODOS]" itemValue="0"/>
+                                                <f:selectItem itemLabel="Activo" itemValue="1" /> 
+                                                <f:selectItem itemLabel="Inactivo" itemValue="2" />
+                                            </p:selectOneMenu>
+                                            
+                                            
+
+
+                                        </p:column>    
+                                    </p:row>
+
+                                    <p:outputPanel id="opMes" rendered="#{reporteFinanzaBean.idReporte gt 2? true:false}">
+
+                                        <p:row>
+                                            <p:column>
+                                                <h:outputText value="Fecha inicial:*"/>
+
+                                            </p:column>
+
+                                            <p:column>
+                                                <h:outputText value="Fecha fin:*"/>
+
+                                            </p:column>
+                                        </p:row>
+
+                                        <p:row>
+                                            <p:column>
+                                                <p:calendar navigator="true" yearRange="1910:"  locale="es" pattern="dd/MM/yyyy" mask="true" showOn="button"    value="#{reporteFinanzaBean.fechaInicial}"/><br></br>
+
+                                            </p:column>
+                                            <p:column>
+                                                <p:calendar navigator="true" yearRange="1910:"  locale="es" pattern="dd/MM/yyyy" mask="true" showOn="button"  id="cfecha"  value="#{reporteFinanzaBean.fechaFin}"/><br></br>
+
+                                            </p:column>
+                                        </p:row>
+                                    </p:outputPanel>
+
+                                </p:panelGrid>
+                            </p:fieldset>
+
+                            <center>
+
+
+                                <p:commandButton ajax="false"  value="Ver reporte" id="btnGuardar"  style="#{solicitudBean.btnCrear}" actionListener="#{reporteFinanzaBean.llamarTipoReporte()}"> 
+                                </p:commandButton>
+
+                                <p:commandButton ajax="false"  value="Descargar PDF"  style="#{solicitudBean.btnModificar}"  actionListener="#{reporteFinanzaBean.llamarTipoReportePDF()}"> 
+                                </p:commandButton>
+
+
+                            </center>
+
+                        </p:panel>
+                    </h:form>
+                </p:outputPanel>                
+            </ui:define>
+
+            <ui:define name="aux">
+                <script>
+                    $(document).ready(function () {
+                        $("#fin").addClass("active");
+                    });
+                </script>
+            </ui:define>
+        </ui:composition>
+
+    </body>
+</html>

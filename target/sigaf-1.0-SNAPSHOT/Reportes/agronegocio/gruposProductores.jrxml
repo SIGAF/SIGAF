@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="gruposProductores" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="6e51379c-6a4d-4cff-97b8-9dac2edb76d3">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="93"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["/"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="estado" class="java.lang.Boolean"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT
+     t_productor_grupal."id_productor_grupal" AS t_productor_grupal_id_productor_grupal,
+     t_productor_grupal."codigo_prodcutor_grupal" AS t_productor_grupal_codigo_prodcutor_grupal,
+     t_productor_grupal."nombre_productor_grupal" AS t_productor_grupal_nombre_productor_grupal,
+     t_productor_grupal."hombres_productor_grupal" AS t_productor_grupal_hombres_productor_grupal,
+     t_productor_grupal."mujeres_productor_grupal" AS t_productor_grupal_mujeres_productor_grupal,
+     t_productor_grupal."contacto_productor_grupal" AS t_productor_grupal_contacto_productor_grupal,
+     t_productor_grupal."dui_productor_grupal" AS t_productor_grupal_dui_productor_grupal,
+     t_productor_grupal."nit_productor_grupal" AS t_productor_grupal_nit_productor_grupal,
+     t_productor_grupal."correo_productor_grupal" AS t_productor_grupal_correo_productor_grupal,
+     t_productor_grupal."telefono_productor_grupal" AS t_productor_grupal_telefono_productor_grupal,
+     t_productor_grupal."movil_productor_grupal" AS t_productor_grupal_movil_productor_grupal,
+     t_productor_grupal."ubicacion_productor_grupal" AS t_productor_grupal_ubicacion_productor_grupal,
+     t_productor_grupal."estado_productor_grupal" AS t_productor_grupal_estado_productor_grupal,
+     t_productor_grupal."calificacion_productor_grupal" AS t_productor_grupal_calificacion_productor_grupal,
+     t_productor_individual."id_productor_individual" AS t_productor_individual_id_productor_individual,
+     t_productor_individual."codigo_productor_individual" AS t_productor_individual_codigo_productor_individual,
+     t_productor_individual."nombres_prodcutor_individual" AS t_productor_individual_nombres_prodcutor_individual,
+     t_productor_individual."apellidos_productor_individual" AS t_productor_individual_apellidos_productor_individual,
+     t_productor_individual."fechanacimiento_productor_individual" AS t_productor_individual_fechanacimiento_productor_individual,
+     t_productor_individual."dui_productor_individual" AS t_productor_individual_dui_productor_individual,
+     t_productor_individual."nit_productor_individual" AS t_productor_individual_nit_productor_individual,
+     t_productor_individual."sexo_productor_individual" AS t_productor_individual_sexo_productor_individual,
+     t_productor_individual."varones_productor_individual" AS t_productor_individual_varones_productor_individual,
+     t_productor_individual."ninas_productor_individual" AS t_productor_individual_ninas_productor_individual,
+     t_productor_individual."experiencia_productor_individual" AS t_productor_individual_experiencia_productor_individual,
+     t_productor_individual."institucion_productor_individual" AS t_productor_individual_institucion_productor_individual,
+     t_productor_individual."estudio_productor_individual" AS t_productor_individual_estudio_productor_individual,
+     t_productor_individual."actividades_productor_individual" AS t_productor_individual_actividades_productor_individual,
+     t_productor_individual."correo_productor_individual" AS t_productor_individual_correo_productor_individual,
+     t_productor_individual."telefono_productor_individual" AS t_productor_individual_telefono_productor_individual,
+     t_productor_individual."movil_productor_individual" AS t_productor_individual_movil_productor_individual,
+     t_productor_individual."direccion_productor_individual" AS t_productor_individual_direccion_productor_individual,
+     t_productor_individual."estado_productor_individual" AS t_productor_individual_estado_productor_individual,
+     t_productor_individual."calificacion_productor_individual" AS t_productor_individual_calificacion_productor_individual,
+     t_productor_individual."estado_familiar_productor_individual" AS t_productor_individual_estado_familiar_productor_individual,
+     t_productor_individual."id_grupo" AS t_productor_individual_id_grupo,
+     t_productor_individual."representante_grupal" AS t_productor_individual_representante_grupal
+FROM
+     "public"."t_productor_grupal" t_productor_grupal INNER JOIN "public"."t_productor_individual" t_productor_individual ON t_productor_grupal."id_productor_grupal" = t_productor_individual."id_grupo"]]>
+	</queryString>
+	<field name="t_productor_grupal_id_productor_grupal" class="java.lang.Integer"/>
+	<field name="t_productor_grupal_codigo_prodcutor_grupal" class="java.lang.String"/>
+	<field name="t_productor_grupal_nombre_productor_grupal" class="java.lang.String"/>
+	<field name="t_productor_grupal_hombres_productor_grupal" class="java.lang.Integer"/>
+	<field name="t_productor_grupal_mujeres_productor_grupal" class="java.lang.Integer"/>
+	<field name="t_productor_grupal_contacto_productor_grupal" class="java.lang.String"/>
+	<field name="t_productor_grupal_dui_productor_grupal" class="java.lang.String"/>
+	<field name="t_productor_grupal_nit_productor_grupal" class="java.lang.String"/>
+	<field name="t_productor_grupal_correo_productor_grupal" class="java.lang.String"/>
+	<field name="t_productor_grupal_telefono_productor_grupal" class="java.lang.String"/>
+	<field name="t_productor_grupal_movil_productor_grupal" class="java.lang.String"/>
+	<field name="t_productor_grupal_ubicacion_productor_grupal" class="java.lang.String"/>
+	<field name="t_productor_grupal_estado_productor_grupal" class="java.lang.Boolean"/>
+	<field name="t_productor_grupal_calificacion_productor_grupal" class="java.lang.Integer"/>
+	<field name="t_productor_individual_id_productor_individual" class="java.lang.Integer"/>
+	<field name="t_productor_individual_codigo_productor_individual" class="java.lang.String"/>
+	<field name="t_productor_individual_nombres_prodcutor_individual" class="java.lang.String"/>
+	<field name="t_productor_individual_apellidos_productor_individual" class="java.lang.String"/>
+	<field name="t_productor_individual_fechanacimiento_productor_individual" class="java.sql.Date"/>
+	<field name="t_productor_individual_dui_productor_individual" class="java.lang.String"/>
+	<field name="t_productor_individual_nit_productor_individual" class="java.lang.String"/>
+	<field name="t_productor_individual_sexo_productor_individual" class="java.lang.String"/>
+	<field name="t_productor_individual_varones_productor_individual" class="java.lang.Integer"/>
+	<field name="t_productor_individual_ninas_productor_individual" class="java.lang.Integer"/>
+	<field name="t_productor_individual_experiencia_productor_individual" class="java.lang.String"/>
+	<field name="t_productor_individual_institucion_productor_individual" class="java.lang.String"/>
+	<field name="t_productor_individual_estudio_productor_individual" class="java.lang.String"/>
+	<field name="t_productor_individual_actividades_productor_individual" class="java.lang.String"/>
+	<field name="t_productor_individual_correo_productor_individual" class="java.lang.String"/>
+	<field name="t_productor_individual_telefono_productor_individual" class="java.lang.String"/>
+	<field name="t_productor_individual_movil_productor_individual" class="java.lang.String"/>
+	<field name="t_productor_individual_direccion_productor_individual" class="java.lang.String"/>
+	<field name="t_productor_individual_estado_productor_individual" class="java.lang.Boolean"/>
+	<field name="t_productor_individual_calificacion_productor_individual" class="java.lang.Integer"/>
+	<field name="t_productor_individual_estado_familiar_productor_individual" class="java.lang.String"/>
+	<field name="t_productor_individual_id_grupo" class="java.lang.Integer"/>
+	<field name="t_productor_individual_representante_grupal" class="java.lang.Boolean"/>
+	<variable name="t_productor_individual_id_productor_individual_1" class="java.lang.Integer" resetType="Page" calculation="Count">
+		<variableExpression><![CDATA[$F{t_productor_individual_id_productor_individual}]]></variableExpression>
+	</variable>
+	<group name="t_productor_grupal_nombre_productor_grupal">
+		<groupExpression><![CDATA[$F{t_productor_grupal_nombre_productor_grupal}]]></groupExpression>
+		<groupHeader>
+			<band height="50"/>
+		</groupHeader>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<subreport>
+				<reportElement x="19" y="0" width="200" height="79" uuid="5355cd8d-dea0-4ff9-85b9-0a241340c4da"/>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "TituloFunda.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch">
+			<staticText>
+				<reportElement x="115" y="10" width="230" height="20" uuid="5e1e540a-bb0d-461b-97d9-23c989697ad0"/>
+				<textElement textAlignment="Center">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[INFORME DE GRUPOS DE PRODUCTORES]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="344" y="10" width="100" height="20" uuid="9ef1d357-89e5-48cf-9af3-52cefdcbd862"/>
+				<textElement>
+					<font size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{estado}.equals( true )? "ACTIVOS":"INACTIVOS"]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="45" splitType="Stretch">
+			<staticText>
+				<reportElement x="227" y="17" width="71" height="20" uuid="0b3a41b1-8c03-47f8-8953-a5675ba81946"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[UBICACIÓN]]></text>
+			</staticText>
+			<line>
+				<reportElement x="1" y="10" width="555" height="1" uuid="9a569298-a130-4716-8da2-e6a8847a5ca7"/>
+			</line>
+			<line>
+				<reportElement x="1" y="36" width="555" height="1" uuid="41f43741-d7dc-4caa-8b94-e8d1e549f0bb"/>
+			</line>
+			<staticText>
+				<reportElement x="35" y="17" width="100" height="20" uuid="e4720bd2-15d7-409a-9a49-68aa07e7444b"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[GRUPO]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="26" splitType="Stretch">
+			<textField>
+				<reportElement x="35" y="0" width="100" height="20" uuid="3b8ca73d-8a1e-47c4-9c05-99f635ad1494"/>
+				<textFieldExpression><![CDATA[$F{t_productor_grupal_nombre_productor_grupal}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="227" y="0" width="300" height="20" uuid="7083c28a-47f5-40e4-9cac-672dfad63adc"/>
+				<textFieldExpression><![CDATA[$F{t_productor_grupal_ubicacion_productor_grupal}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

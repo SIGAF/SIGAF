@@ -1,0 +1,110 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./../index.xhtml">
+
+            <ui:define name="content">
+                <style>
+
+                    .borderHidden.ui-panelgrid>*>tr,
+                    .borderHidden.ui-panelgrid .ui-panelgrid-cell {
+                        border: none;
+                    }
+
+
+                </style>
+
+                <p:outputPanel id="padding"  > 
+
+                    <h:form id="fReportesConfiguracion" target="_blank">
+
+                        <p:panel id="pReportesConfiguracion" header="Reportes configuración"  style="width: 80%; margin: auto; margin-bottom: 20px">
+
+                            <p:fieldset style="margin-bottom:20px">
+                                <p:panelGrid id="pgReporte"  style="width: 100%; margin: auto;" styleClass="borderHidden" >   
+                                    <p:row>
+                                        <p:column style="width: 50%" >
+                                            <h:outputText value="Reporte:*"/>
+                                        </p:column>
+                                        <p:column  style="width: 50%">
+                                            <h:outputText value="Políticas:*" rendered="#{reporteConfiguracionBean.idReporte eq 3? true:false}"/>
+                                            <h:outputText value="Empleados:*"  rendered="#{reporteConfiguracionBean.idReporte eq 2? true:false}"/>
+                                        </p:column>
+                                    </p:row>
+                                    <p:row>
+                                        <p:column>
+                                            <p:selectOneMenu id="sModulo"  style="width:100%"  value="#{reporteConfiguracionBean.idReporte}">
+                                                <f:selectItem itemLabel="[Seleccione]" itemValue="0" />
+                                                <f:selectItem itemLabel="Listado de Departamentos y municipios" itemValue="1" />
+                                                <f:selectItem itemLabel="Listado  de empleados" itemValue="2" />
+                                                <f:selectItem itemLabel="Listado de políticas" itemValue="3" />
+                                                <f:selectItem itemLabel="Listado de áreas" itemValue="4" />
+                                                <f:selectItem itemLabel="Reporte perfil" itemValue="5" />
+
+                                                <p:ajax update=":padding"/>
+                                            </p:selectOneMenu>
+                                        </p:column>
+                                        <p:column >
+                                            <p:selectOneMenu id="sPolitica" rendered="#{reporteConfiguracionBean.idReporte eq 3? true:false}" style="width:100%"  value="#{reporteConfiguracionBean.idTipoCredito}">
+                                               
+                                                <f:selectItem itemLabel="[TODOS]" itemValue="0"/>
+                                                <f:selectItem itemLabel="Credito para empleados" itemValue="1"  />
+                                                <f:selectItem itemLabel="Crédito para inversión(Cooperativas)" itemValue="2" />
+                                                <f:selectItem itemLabel="Crédito para prodrucción(Cooperativas)" itemValue="3" />
+                                                <f:selectItem itemLabel="Crédito para lisiados" itemValue="4" />
+                                                <f:selectItem itemLabel="Crédito personal" itemValue="5" />
+                                                <f:selectItem itemLabel="Crédito para el comercio" itemValue="6" />
+                                                <f:selectItem itemLabel="Crédito para cápital de trabajo agropecuario" itemValue="7" />
+                                                <f:selectItem itemLabel="Crédito para inversión agropecuaria" itemValue="8" />
+                                                <f:selectItem itemLabel="Crédito para la producción agropecuaria" itemValue="9" />
+
+                                            </p:selectOneMenu>
+                                      
+                                            <p:selectOneMenu  id="sPersonal"  rendered="#{reporteConfiguracionBean.idReporte eq 2? true:false}"  style="width:100%"  value="#{reporteConfiguracionBean.idEmpleadoAux}">
+                                                
+                                                <f:selectItem itemLabel="[TODOS]" itemValue="0" />
+                                                <f:selectItem itemLabel="Activo" itemValue="1" />
+                                                <f:selectItem itemLabel="Inactivo" itemValue="2" />
+
+                                            </p:selectOneMenu>
+
+                                        </p:column>
+                                    </p:row>
+
+
+
+                                </p:panelGrid>
+                                <br></br>
+                                <center>
+                                    <p:commandButton id="btnVer" ajax="fasle"  actionListener="#{reporteConfiguracionBean.llamarTipoReporte}"    style="#{activoFijoBean.btnCrear}" value="Ver PDF"> 
+
+                                    </p:commandButton>
+                                    <p:commandButton id="btnDescargar" ajax="false"     actionListener="#{reporteConfiguracionBean.llamarTipoReportePDF}"    style="#{activoFijoBean.btnCrear}" value="Descargar PDF"> 
+                                    </p:commandButton> 
+
+                                </center>
+                            </p:fieldset>
+                        </p:panel>
+                    </h:form>
+                </p:outputPanel>
+            </ui:define>
+
+            <ui:define name="aux">
+                <script>
+                    $(document).ready(function () {
+                        $("#conf").addClass("active");
+                    });
+                </script>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

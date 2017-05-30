@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="departamentos" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="64dd5d5d-f2af-4ae3-b012-f3e9460337dd">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["/"]]></defaultValueExpression>
+	</parameter>
+	<queryString language="SQL">
+		<![CDATA[SELECT
+     t_departamento."id_departamento" AS t_departamento_id_departamento,
+     t_departamento."nombre_departamento" AS t_departamento_nombre_departamento,
+     t_departamento."estado_departamento" AS t_departamento_estado_departamento
+FROM
+     "public"."t_departamento" t_departamento]]>
+	</queryString>
+	<field name="t_departamento_id_departamento" class="java.lang.Integer"/>
+	<field name="t_departamento_nombre_departamento" class="java.lang.String"/>
+	<field name="t_departamento_estado_departamento" class="java.lang.Boolean"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<subreport>
+				<reportElement x="0" y="0" width="201" height="79" uuid="8e2186b5-5718-418e-b910-be21eb397e78"/>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "Titulo.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch">
+			<staticText>
+				<reportElement x="80" y="7" width="389" height="20" uuid="30fdf04e-061a-40a7-b304-c8153c265c6d"/>
+				<textElement textAlignment="Justified">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[REPORTE DE DEPARTAMENTOS CON SUS MUNICIPIOS]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="32" splitType="Stretch">
+			<staticText>
+				<reportElement x="23" y="6" width="127" height="20" uuid="11587669-a33e-4ff7-a529-f7bd07d103c6"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DEPARTAMENTO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="403" y="7" width="100" height="20" uuid="c6469e2c-6005-47f5-8a86-bdcd099d602a"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ESTADO]]></text>
+			</staticText>
+			<line>
+				<reportElement x="2" y="2" width="553" height="2" uuid="c099fc14-2ebe-4236-99dc-0a3d986eecd4"/>
+			</line>
+			<staticText>
+				<reportElement x="216" y="7" width="100" height="20" uuid="ca3122b6-c537-4fce-b255-362df6dff77c"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[MUNICIPIO]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="79" splitType="Stretch">
+			<line>
+				<reportElement x="2" y="-2" width="554" height="1" uuid="f645594b-14e5-4635-ac75-937c487a3756"/>
+			</line>
+			<textField>
+				<reportElement x="23" y="11" width="100" height="20" uuid="1b1cf2af-8e33-4018-8cbd-4e198e2e001e"/>
+				<textFieldExpression><![CDATA[$F{t_departamento_nombre_departamento}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="403" y="11" width="100" height="20" uuid="fbe4f325-19b2-4f02-8b40-d70bd911e6b2"/>
+				<textFieldExpression><![CDATA[$F{t_departamento_estado_departamento} ? "Activo":"Falso"]]></textFieldExpression>
+			</textField>
+			<subreport>
+				<reportElement x="0" y="35" width="555" height="36" uuid="132b407c-05b5-49ae-be36-d889ac9bc7b7"/>
+				<subreportParameter name="idDepartamento">
+					<subreportParameterExpression><![CDATA[$F{t_departamento_id_departamento}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "municipios.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

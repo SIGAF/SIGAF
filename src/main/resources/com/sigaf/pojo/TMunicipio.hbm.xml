@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 05-mar-2017 20:43:49 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.sigaf.pojo.TMunicipio" table="t_municipio" schema="public" optimistic-lock="version">
+        <id name="idMunicipio" type="int">
+            <column name="id_municipio" />
+             <generator class="sequence">
+                <param name="sequence">t_municipio_id_municipio_seq</param>
+            </generator>
+        </id>
+        <many-to-one name="TDepartamento" class="com.sigaf.pojo.TDepartamento" fetch="select">
+            <column name="iddepartamento_municipio" />
+        </many-to-one>
+        <property name="nombreMunicipio" type="string">
+            <column name="nombre_municipio" />
+        </property>
+        <property name="estadoMunicipio" type="java.lang.Boolean">
+            <column name="estado_municipio" />
+        </property>
+        <set name="TLisiados" table="t_lisiado" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_municipio" />
+            </key>
+            <one-to-many class="com.sigaf.pojo.TLisiado" />
+        </set>
+        <set name="TMunicipioEmpleados" table="t_municipio_empleado" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="idmunicipio_municipio_empleado" />
+            </key>
+            <one-to-many class="com.sigaf.pojo.TMunicipioEmpleado" />
+        </set>
+    </class>
+</hibernate-mapping>

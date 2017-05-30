@@ -1,0 +1,647 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="agronegocio" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="12ce936e-f98d-4b7d-9622-99c676635df1">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="558"/>
+	<parameter name="id_agronegocio" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["/"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="nombreProductor" class="java.lang.String"/>
+	<parameter name="duiProductor" class="java.lang.String"/>
+	<parameter name="nitProductor" class="java.lang.String"/>
+	<parameter name="direccionProductor" class="java.lang.String"/>
+	<parameter name="telefonoProductor" class="java.lang.String"/>
+	<parameter name="celularTelefono" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT
+     t_agronegocio."id_agronegocio" AS t_agronegocio_id_agronegocio,
+     t_agronegocio."fecha" AS t_agronegocio_fecha,
+     t_agronegocio."idcomprador" AS t_agronegocio_idcomprador,
+     t_agronegocio."identidad" AS t_agronegocio_identidad,
+     t_agronegocio."total" AS t_agronegocio_total,
+     t_agronegocio."comision" AS t_agronegocio_comision,
+t_agronegocio."interes" AS t_agronegocio_interes,
+     t_agronegocio."plazo" AS t_agronegocio_plazo,
+     t_agronegocio."tipo" AS t_agronegocio_tipo,
+     t_agronegocio."estado" AS t_agronegocio_estado,
+     t_agronegocio."codigo" AS t_agronegocio_codigo,
+     t_agronegocio."idconfiguracion" AS t_agronegocio_idconfiguracion,
+     t_agronegocio."fechapago" AS t_agronegocio_fechapago,
+     t_agronegocio."estadoregistro" AS t_agronegocio_estadoregistro,
+     t_pago_agronegocio."id_pago_agronegocio" AS t_pago_agronegocio_id_pago_agronegocio,
+     t_pago_agronegocio."monto" AS t_pago_agronegocio_monto,
+
+t_pago_agronegocio."dias" AS t_pago_agronegocio_dias,
+t_pago_agronegocio."comision" AS t_pago_agronegocio_comision,
+     t_pago_agronegocio."fecha" AS t_pago_agronegocio_fecha,
+     t_pago_agronegocio."idagronegocio" AS t_pago_agronegocio_idagronegocio,
+     t_pago_agronegocio."interes" AS t_pago_agronegocio_interes,
+     t_pago_agronegocio."otrosinteres" AS t_pago_agronegocio_otrosinteres,
+     t_pago_agronegocio."hora" AS t_pago_agronegocio_hora,
+     t_pago_agronegocio."forma" AS t_pago_agronegocio_forma,
+     t_pago_agronegocio."cheque" AS t_pago_agronegocio_cheque,
+     t_configuracion_agronegocio."id_configuracion_agronegocio" AS t_configuracion_agronegocio_id_configuracion_agronegocio,
+     t_configuracion_agronegocio."tasa_comision_agronegocio" AS t_configuracion_agronegocio_tasa_comision_agronegocio,
+     t_configuracion_agronegocio."tasa_interes_agronegocio" AS t_configuracion_agronegocio_tasa_interes_agronegocio,
+     t_configuracion_agronegocio."tasa_mora_agronegocio" AS t_configuracion_agronegocio_tasa_mora_agronegocio,
+     t_configuracion_agronegocio."vigencia_agronegocio" AS t_configuracion_agronegocio_vigencia_agronegocio,
+     t_configuracion_agronegocio."estado_configuracion" AS t_configuracion_agronegocio_estado_configuracion,
+
+     t_comprador."id_comprador" AS t_comprador_id_comprador,
+     t_comprador."nombres_comprador" AS t_comprador_nombres_comprador,
+     t_comprador."apellidos_comprador" AS t_comprador_apellidos_comprador,
+     t_comprador."dui_comprador" AS t_comprador_dui_comprador,
+     t_comprador."nit_comprador" AS t_comprador_nit_comprador,
+     t_comprador."sexo_comprador" AS t_comprador_sexo_comprador,
+     t_comprador."tipo_comprador" AS t_comprador_tipo_comprador,
+     t_comprador."correo_comprador" AS t_comprador_correo_comprador,
+     t_comprador."telefono_comprador" AS t_comprador_telefono_comprador,
+     t_comprador."movil_comprador" AS t_comprador_movil_comprador,
+     t_comprador."direccion_comprador" AS t_comprador_direccion_comprador,
+     t_comprador."estado_comprador" AS t_comprador_estado_comprador,
+     t_comprador."fechanacimiento_comprador" AS t_comprador_fechanacimiento_comprador
+FROM
+     "public"."t_agronegocio" t_agronegocio INNER JOIN "public"."t_pago_agronegocio" t_pago_agronegocio ON t_agronegocio."id_agronegocio" = t_pago_agronegocio."idagronegocio"
+     INNER JOIN "public"."t_configuracion_agronegocio" t_configuracion_agronegocio ON t_agronegocio."idconfiguracion" = t_configuracion_agronegocio."id_configuracion_agronegocio"
+
+     INNER JOIN "public"."t_comprador" t_comprador ON t_agronegocio."idcomprador" = t_comprador."id_comprador"
+     where  t_agronegocio."id_agronegocio"= $P{id_agronegocio}]]>
+	</queryString>
+	<field name="t_agronegocio_id_agronegocio" class="java.lang.Integer"/>
+	<field name="t_agronegocio_fecha" class="java.sql.Date"/>
+	<field name="t_agronegocio_idcomprador" class="java.lang.Integer"/>
+	<field name="t_agronegocio_identidad" class="java.lang.Integer"/>
+	<field name="t_agronegocio_total" class="java.math.BigDecimal"/>
+	<field name="t_agronegocio_comision" class="java.math.BigDecimal"/>
+	<field name="t_agronegocio_interes" class="java.math.BigDecimal"/>
+	<field name="t_agronegocio_plazo" class="java.lang.Integer"/>
+	<field name="t_agronegocio_tipo" class="java.lang.String"/>
+	<field name="t_agronegocio_estado" class="java.lang.String"/>
+	<field name="t_agronegocio_codigo" class="java.lang.String"/>
+	<field name="t_agronegocio_idconfiguracion" class="java.lang.Integer"/>
+	<field name="t_agronegocio_fechapago" class="java.sql.Date"/>
+	<field name="t_agronegocio_estadoregistro" class="java.lang.Boolean"/>
+	<field name="t_pago_agronegocio_id_pago_agronegocio" class="java.lang.Integer"/>
+	<field name="t_pago_agronegocio_monto" class="java.math.BigDecimal"/>
+	<field name="t_pago_agronegocio_dias" class="java.lang.Integer"/>
+	<field name="t_pago_agronegocio_comision" class="java.math.BigDecimal"/>
+	<field name="t_pago_agronegocio_fecha" class="java.sql.Date"/>
+	<field name="t_pago_agronegocio_idagronegocio" class="java.lang.Integer"/>
+	<field name="t_pago_agronegocio_interes" class="java.math.BigDecimal"/>
+	<field name="t_pago_agronegocio_otrosinteres" class="java.math.BigDecimal"/>
+	<field name="t_pago_agronegocio_hora" class="java.lang.String"/>
+	<field name="t_pago_agronegocio_forma" class="java.lang.String"/>
+	<field name="t_pago_agronegocio_cheque" class="java.lang.String"/>
+	<field name="t_configuracion_agronegocio_id_configuracion_agronegocio" class="java.lang.Integer"/>
+	<field name="t_configuracion_agronegocio_tasa_comision_agronegocio" class="java.math.BigDecimal"/>
+	<field name="t_configuracion_agronegocio_tasa_interes_agronegocio" class="java.math.BigDecimal"/>
+	<field name="t_configuracion_agronegocio_tasa_mora_agronegocio" class="java.math.BigDecimal"/>
+	<field name="t_configuracion_agronegocio_vigencia_agronegocio" class="java.sql.Date"/>
+	<field name="t_configuracion_agronegocio_estado_configuracion" class="java.lang.Boolean"/>
+	<field name="t_comprador_id_comprador" class="java.lang.Integer"/>
+	<field name="t_comprador_nombres_comprador" class="java.lang.String"/>
+	<field name="t_comprador_apellidos_comprador" class="java.lang.String"/>
+	<field name="t_comprador_dui_comprador" class="java.lang.String"/>
+	<field name="t_comprador_nit_comprador" class="java.lang.String"/>
+	<field name="t_comprador_sexo_comprador" class="java.lang.String"/>
+	<field name="t_comprador_tipo_comprador" class="java.lang.String"/>
+	<field name="t_comprador_correo_comprador" class="java.lang.String"/>
+	<field name="t_comprador_telefono_comprador" class="java.lang.String"/>
+	<field name="t_comprador_movil_comprador" class="java.lang.String"/>
+	<field name="t_comprador_direccion_comprador" class="java.lang.String"/>
+	<field name="t_comprador_estado_comprador" class="java.lang.Boolean"/>
+	<field name="t_comprador_fechanacimiento_comprador" class="java.sql.Date"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<subreport>
+				<reportElement x="22" y="0" width="200" height="79" uuid="c497a6e2-4a88-4b4b-b05f-2c1c221830a1"/>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "TituloFunda.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</title>
+	<detail>
+		<band height="399" splitType="Stretch">
+			<staticText>
+				<reportElement x="192" y="4" width="161" height="20" uuid="4ca8ef77-eb02-4b38-bc5d-8a339225653e"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[REPORTE DE AGRONEGOCIO]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="24" width="555" height="1" uuid="1c1212cf-6067-45f5-b583-07e077ca4cb7"/>
+			</line>
+			<staticText>
+				<reportElement x="22" y="65" width="67" height="20" uuid="f42e5afc-d923-4b3a-ba8b-d94b2a41a93c"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[NOMBRE:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="289" y="65" width="64" height="20" uuid="b384483b-4d54-49ab-8cd5-841ca5b34d26"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[DUI:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="22" y="87" width="67" height="20" uuid="eca1028e-8143-4230-8f93-1cc839f40033"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[NIT:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="289" y="87" width="64" height="20" uuid="1725029f-a240-4d60-b3f9-e5326c44cc05"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[TELÉFONOS:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="22" y="110" width="67" height="20" uuid="34edc2a3-79e7-4c2c-ab83-eb69bdbdbec7"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[DIRECCIÓN:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="0" y="263" width="555" height="20" backcolor="#E4E4F2" uuid="a7b23597-1010-4b3b-af63-34527e4e0349"/>
+				<textElement>
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[REGISTRO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="22" y="184" width="67" height="20" uuid="52fecf95-9585-42fd-b7f8-f070be50dfe4"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[NOMBRE:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="289" y="184" width="64" height="20" uuid="ea752782-3b80-473c-8787-5a3a395cb913"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[DUI:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="22" y="206" width="67" height="20" uuid="74d43e2d-ae20-4228-9e7f-110ddc42fd29"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[NIT:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="289" y="206" width="64" height="20" uuid="e735e106-c049-4761-9090-402bde244fe0"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[TELÉFONOS:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="22" y="229" width="67" height="20" uuid="c6c4b56d-2067-45af-a0ba-a9c80abb06bf"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[DIRECCIÓN:]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="89" y="65" width="189" height="20" uuid="59b8d93a-01bb-4ab4-a674-17301fdc6ff7"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{t_comprador_nombres_comprador}+" "+$F{t_comprador_apellidos_comprador}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="352" y="65" width="186" height="20" uuid="3d44d3c8-430b-48f7-a8fc-20b0941d8c95"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{t_comprador_dui_comprador}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="89" y="87" width="189" height="20" uuid="4c9b85ee-716d-40da-9c8a-74ca144b43d1"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{t_comprador_nit_comprador}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="352" y="87" width="186" height="20" uuid="bf1bba8a-f6ab-46a0-b89c-a3ac9e41ee3c"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{t_comprador_telefono_comprador}+", "+$F{t_comprador_movil_comprador}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="89" y="110" width="449" height="20" uuid="728bae73-80ff-4801-a66f-6e9498b9b4b0"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{t_comprador_direccion_comprador}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="22" y="297" width="100" height="20" uuid="a79e808f-7711-4042-a912-53f3bc306910"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[CÓDIGO:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="289" y="297" width="118" height="20" uuid="ba90dc97-bf14-417d-872a-2d51a8396152"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[FECHA DE REGISTRO:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="22" y="319" width="100" height="20" uuid="2f24a96a-7d8a-4f56-8bd9-30a4d001921e"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[TIPO:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="289" y="319" width="118" height="20" uuid="ef1ad8ed-5936-4fee-abb0-01f6a36ab398"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[FECHA DE PAGO:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="22" y="341" width="100" height="20" uuid="c3c4ab47-0a8c-4cc4-89ea-019bb615d688"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[PLAZO(meses):]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="289" y="341" width="118" height="20" uuid="043522b7-0183-4609-a0c1-cd48457bbfda"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[TOTAL:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="22" y="364" width="100" height="20" uuid="9d9f3e03-b5ee-46c3-847a-b96183c1b518"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[INTERÉS (         ):]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="289" y="364" width="118" height="20" uuid="05ad738e-de26-4720-bcfa-9cd8be60fa6e"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[COMISIÓN (         ):]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="407" y="297" width="100" height="20" uuid="5c7ae106-15b5-4329-90fd-802a18487142"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{t_agronegocio_fecha}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="407" y="319" width="100" height="20" uuid="e5b2ee5f-ffae-4a1e-aec5-b5743594df4d"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{t_agronegocio_fechapago}]]></textFieldExpression>
+			</textField>
+			<textField pattern="$#,##0.00" isBlankWhenNull="false">
+				<reportElement x="407" y="339" width="100" height="20" uuid="4e849126-0d7a-4081-b673-78270b6c48cc"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{t_agronegocio_total}]]></textFieldExpression>
+			</textField>
+			<textField pattern="$#,##0.00" isBlankWhenNull="false">
+				<reportElement x="407" y="364" width="100" height="20" uuid="0c5f87bf-5ad2-4416-92f4-bc57f26d6f9f"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{t_agronegocio_comision}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="122" y="319" width="156" height="20" uuid="fcf22863-3df7-46d6-b091-8cc0d9a276a0"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{t_agronegocio_tipo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="122" y="297" width="156" height="20" uuid="117df03d-be3a-4f11-967e-2094e9af70d4"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{t_agronegocio_codigo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="122" y="341" width="156" height="20" uuid="e2f64798-cf2b-487b-b908-11bdd3581f20"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{t_agronegocio_plazo}]]></textFieldExpression>
+			</textField>
+			<textField pattern="$#,##0.00" isBlankWhenNull="false">
+				<reportElement x="122" y="364" width="156" height="20" uuid="12326be6-22b4-4f15-952e-1f9fcd552412"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{t_agronegocio_interes}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="38" width="555" height="20" uuid="c930caf8-59b9-4c2d-aacf-e6ae397c995f"/>
+				<textElement>
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[COMPRADOR]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="148" width="100" height="20" uuid="4b1cba5a-0341-4daf-9eb4-654dfdc26f98"/>
+				<textElement>
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PRODUCTOR]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="58" width="555" height="1" uuid="db68a917-46b9-4883-a177-82cea1907925"/>
+			</line>
+			<line>
+				<reportElement x="0" y="167" width="555" height="1" uuid="f048a5e6-54f8-4008-86f9-34b919344a17"/>
+			</line>
+			<textField>
+				<reportElement x="89" y="184" width="189" height="20" uuid="3af1b2d8-3678-481a-9e2a-263373a9c9ec"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{nombreProductor}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="352" y="184" width="186" height="20" uuid="3722adfe-648c-4f5a-b52c-eb94c50315b0"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{duiProductor}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="89" y="206" width="189" height="20" uuid="8ac2c2ba-0cd1-4954-ac65-704634a989f4"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{nitProductor}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="89" y="229" width="449" height="20" uuid="2a94b9b7-3231-42f5-906f-f3e4bfd46415"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{direccionProductor}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="352" y="206" width="186" height="20" uuid="10897b89-6631-4947-b360-f7484e00fa0c"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{telefonoProductor}+", "+$P{celularTelefono}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="282" width="555" height="1" uuid="99e8e0ff-6cb1-46bd-b86f-376340fdad44"/>
+			</line>
+			<textField pattern="###0.00">
+				<reportElement x="66" y="364" width="28" height="20" uuid="6a763e52-9083-4a8f-8e4b-e48836f9652a"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{t_configuracion_agronegocio_tasa_interes_agronegocio}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.00">
+				<reportElement x="336" y="364" width="33" height="20" uuid="9d94f57f-e240-4322-a018-82fca9551c16"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{t_configuracion_agronegocio_tasa_comision_agronegocio}]]></textFieldExpression>
+			</textField>
+		</band>
+		<band height="442">
+			<staticText>
+				<reportElement mode="Transparent" x="0" y="276" width="555" height="20" backcolor="#E4E4F2" uuid="0923c52c-8f91-4cc3-8349-84e72249c036"/>
+				<textElement>
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DETALLES DE PRODUCTOS]]></text>
+			</staticText>
+			<subreport>
+				<reportElement x="0" y="347" width="555" height="69" uuid="c23dfc8f-d24b-4b3e-9529-18ff7ac1a0c9"/>
+				<subreportParameter name="id_agronegocio">
+					<subreportParameterExpression><![CDATA[$F{t_agronegocio_id_agronegocio}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "agronegocio_productos.jasper"]]></subreportExpression>
+			</subreport>
+			<line>
+				<reportElement x="0" y="334" width="555" height="1" uuid="5537ed7a-90d6-4e8b-b907-361fba480181"/>
+			</line>
+			<staticText>
+				<reportElement x="10" y="314" width="100" height="20" uuid="c442be22-356e-4aec-9595-e3fad2636d98"/>
+				<textElement>
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nombre]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="160" y="314" width="100" height="20" uuid="29c102f0-e7e5-4f46-8dbf-0993614b153c"/>
+				<textElement>
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Unidad]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="361" y="314" width="65" height="20" uuid="dc541a1e-7bb7-4694-bbd7-42355489deb1"/>
+				<textElement>
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cantidad]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="426" y="314" width="62" height="20" uuid="aebf6728-973a-42d6-a945-7948c82cf73d"/>
+				<textElement>
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Precio]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="0" y="18" width="555" height="20" backcolor="#E4E4F2" uuid="d72d20ef-ee7a-4eb9-8562-29924638550c"/>
+				<textElement>
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PAGO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="22" y="60" width="100" height="20" uuid="be4fb1ae-b120-426a-8f91-dc1f62207dbe"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[ESTADO:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="278" y="60" width="129" height="20" uuid="a87296d8-8631-4440-9c88-c07653b94f4a"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[FECHA DE PAGO:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="22" y="82" width="100" height="20" uuid="52285279-fc03-4d95-bf7d-11893b7bca65"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[INTERÉS:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="278" y="80" width="129" height="20" uuid="e4d61e76-d94e-4fbb-b54b-271978f72b49"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[OTRO INTERÉS (         ):]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="22" y="129" width="100" height="20" uuid="e86eccb6-4c7a-421b-aeff-7244fa4763a1"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[FORMA DE PAGO:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="278" y="128" width="129" height="20" uuid="64f77f66-be74-4e20-9e43-e8b3466dc2d7"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[NUMERO DE CHEQUE:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="22" y="149" width="100" height="20" uuid="b6c5e915-78a3-4185-ba4e-1311310bb91e"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[DIAS DE RETRASO:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="407" y="129" width="100" height="20" uuid="601ca5f8-2483-4b72-b0f0-ac22a8e7addc"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{t_pago_agronegocio_cheque}]]></textFieldExpression>
+			</textField>
+			<textField pattern="$#,##0.00" isBlankWhenNull="false">
+				<reportElement x="407" y="82" width="100" height="20" uuid="10f9cec4-bb13-443d-bc64-10736b2fad6d"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{t_pago_agronegocio_otrosinteres}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="122" y="129" width="100" height="20" uuid="4cb2650e-7dda-4e52-8cf7-6cda8271232f"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{t_pago_agronegocio_forma}]]></textFieldExpression>
+			</textField>
+			<textField pattern="$#,##0.00" isBlankWhenNull="false">
+				<reportElement x="122" y="82" width="100" height="20" uuid="1b2db184-e3fb-4bc9-8c35-2eaebd399216"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{t_pago_agronegocio_interes}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="407" y="60" width="100" height="20" uuid="a5a87583-99f5-4a52-bd28-a44cb76ca766"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{t_pago_agronegocio_fecha}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="122" y="61" width="100" height="20" uuid="8f20e5d4-a349-4d8d-850a-b2e91649204f"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{t_agronegocio_estado}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="122" y="149" width="100" height="20" uuid="807da28a-9758-4be1-9c47-acdbe560378a"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{t_pago_agronegocio_dias}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="22" y="105" width="100" height="20" uuid="f3da60fb-2203-49d6-9757-e122774d4c97"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[TOTAL PAGADO:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="278" y="105" width="129" height="20" uuid="13335f4a-0e92-4c09-9b7b-5fa3b1cb4cee"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[COMISIÓN:]]></text>
+			</staticText>
+			<textField pattern="$#,##0.00" isBlankWhenNull="false">
+				<reportElement x="407" y="105" width="100" height="20" uuid="ec9e2de7-4893-4788-987a-ab9439846548"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{t_pago_agronegocio_comision}]]></textFieldExpression>
+			</textField>
+			<textField pattern="$#,##0.00" isBlankWhenNull="false">
+				<reportElement x="122" y="105" width="100" height="20" uuid="e6986cbc-4051-4458-9e65-59e60587cc28"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{t_pago_agronegocio_monto}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="488" y="314" width="62" height="20" uuid="96a9b874-e60f-4b10-bae8-a0c51a89e59d"/>
+				<textElement>
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="38" width="555" height="1" uuid="5095a95e-1e46-4e75-b558-a7bce3bc435a"/>
+			</line>
+			<line>
+				<reportElement x="0" y="296" width="555" height="1" uuid="d2d68c2a-970b-4733-ae89-33e3bc5185ee"/>
+			</line>
+			<textField pattern="###0.00">
+				<reportElement x="350" y="81" width="35" height="20" uuid="44b67f7b-e977-4547-be31-1a1b32f876d7"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{t_configuracion_agronegocio_tasa_mora_agronegocio}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch">
+			<textField>
+				<reportElement x="427" y="16" width="80" height="20" uuid="d70e50c1-c268-4ea6-8e93-4c1d9d5c2185"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="507" y="16" width="40" height="20" uuid="34dd2bbe-7101-44ed-8cb5-c91c3673b35a"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnFooter>
+</jasperReport>

@@ -1,0 +1,465 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="clientePersona" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="4e35999d-239d-4b67-a136-4dbdf81ac442">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="57"/>
+	<import value="org.apache.commons.codec.binary.*"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["/"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="id_cliente" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="edad" class="java.lang.Integer"/>
+	<queryString>
+		<![CDATA[SELECT
+     t_cliente."id_cliente" AS t_cliente_id_cliente,
+     t_cliente."nombre_cliente" AS t_cliente_nombre_cliente,
+     t_cliente."apellido_cliente" AS t_cliente_apellido_cliente,
+     t_cliente."dui_cliente" AS t_cliente_dui_cliente,
+     t_cliente."nit_cliente" AS t_cliente_nit_cliente,
+     t_cliente."direccion_cliente" AS t_cliente_direccion_cliente,
+     t_cliente."fecha_nacimiento" AS t_cliente_fecha_nacimiento,
+     t_cliente."estado_familiar" AS t_cliente_estado_familiar,
+     t_cliente."telefono_cliente" AS t_cliente_telefono_cliente,
+     t_cliente."correo_cliente" AS t_cliente_correo_cliente,
+     t_cliente."celular_cliente" AS t_cliente_celular_cliente,
+     t_cliente."calificacion_cliente" AS t_cliente_calificacion_cliente,
+     t_cliente."codigo_cliente" AS t_cliente_codigo_cliente,
+     t_cliente."dui_copia_cliente" AS t_cliente_dui_copia_cliente,
+     t_cliente."nit_copia_cliente" AS t_cliente_nit_copia_cliente,
+     t_cliente."sexo_cliente" AS t_cliente_sexo_cliente,
+     t_cliente."tipo_cliente1" AS t_cliente_tipo_cliente1,
+t_cliente."tipo_cliente2" AS t_cliente_tipo_cliente2,
+t_cliente."tipo_cliente3" AS t_cliente_tipo_cliente3,
+     t_lisiado."id_lisiado" AS t_lisiado_id_lisiado,
+     t_lisiado."nombre_conyugue" AS t_lisiado_nombre_conyugue,
+     t_lisiado."telefono_conyugue" AS t_lisiado_telefono_conyugue,
+     t_lisiado."numero_hijos" AS t_lisiado_numero_hijos,
+     t_lisiado."nombre_hijo_mayor" AS t_lisiado_nombre_hijo_mayor,
+     t_lisiado."telefono_hijo" AS t_lisiado_telefono_hijo,
+     t_lisiado."celular_hijo" AS t_lisiado_celular_hijo,
+     t_lisiado."tenencia_vivienda" AS t_lisiado_tenencia_vivienda,
+     t_lisiado."anhos_de_residencia" AS t_lisiado_anhos_de_residencia,
+     t_lisiado."propiedades" AS t_lisiado_propiedades,
+     t_lisiado."presupuesto" AS t_lisiado_presupuesto,
+     t_lisiado."id_municipio" AS t_lisiado_id_municipio,
+     t_lisiado."experiencia_crediticia" AS t_lisiado_experiencia_crediticia,
+     t_lisiado."monto_credito_experiencia" AS t_lisiado_monto_credito_experiencia,
+     t_lisiado."institucion_crediticia" AS t_lisiado_institucion_crediticia,
+     t_lisiado."tipo_lesion" AS t_lisiado_tipo_lesion,
+     t_lisiado."otras_enfermedades" AS t_lisiado_otras_enfermedades,
+     t_lisiado."apellido_conyugue" AS t_lisiado_apellido_conyugue,
+     t_lisiado."apellido_hijo" AS t_lisiado_apellido_hijo,
+     t_lisiado."edad_hijo" AS t_lisiado_edad_hijo,
+     t_lisiado."carta_lisiado" AS t_lisiado_carta_lisiado,
+     t_lisiado."lugar_trabajo" AS t_lisiado_lugar_trabajo,
+     t_lisiado."nombre_jefe" AS t_lisiado_nombre_jefe,
+     t_lisiado."cargo_trabajo" AS t_lisiado_cargo_trabajo,
+     t_lisiado."telefono_trabajo" AS t_lisiado_telefono_trabajo,
+     t_lisiado."id_cliente_lisiado" AS t_lisiado_id_cliente_lisiado,
+     t_lisiado."edad_conyugue" AS t_lisiado_edad_conyugue
+FROM
+     "public"."t_cliente" t_cliente INNER JOIN "public"."t_lisiado" t_lisiado ON t_cliente."id_cliente" = t_lisiado."id_cliente_lisiado" where  t_cliente."id_cliente"= $P{id_cliente}]]>
+	</queryString>
+	<field name="t_cliente_id_cliente" class="java.lang.Integer"/>
+	<field name="t_cliente_nombre_cliente" class="java.lang.String"/>
+	<field name="t_cliente_apellido_cliente" class="java.lang.String"/>
+	<field name="t_cliente_dui_cliente" class="java.lang.String"/>
+	<field name="t_cliente_nit_cliente" class="java.lang.String"/>
+	<field name="t_cliente_direccion_cliente" class="java.lang.String"/>
+	<field name="t_cliente_fecha_nacimiento" class="java.sql.Date"/>
+	<field name="t_cliente_estado_familiar" class="java.lang.String"/>
+	<field name="t_cliente_telefono_cliente" class="java.lang.String"/>
+	<field name="t_cliente_correo_cliente" class="java.lang.String"/>
+	<field name="t_cliente_celular_cliente" class="java.lang.String"/>
+	<field name="t_cliente_calificacion_cliente" class="java.lang.String"/>
+	<field name="t_cliente_codigo_cliente" class="java.lang.String"/>
+	<field name="t_cliente_dui_copia_cliente" class="java.lang.String"/>
+	<field name="t_cliente_nit_copia_cliente" class="java.lang.String"/>
+	<field name="t_cliente_sexo_cliente" class="java.lang.String"/>
+	<field name="t_cliente_tipo_cliente1" class="java.lang.Integer"/>
+	<field name="t_cliente_tipo_cliente2" class="java.lang.Integer"/>
+	<field name="t_cliente_tipo_cliente3" class="java.lang.Integer"/>
+	<field name="t_lisiado_id_lisiado" class="java.lang.Integer"/>
+	<field name="t_lisiado_nombre_conyugue" class="java.lang.String"/>
+	<field name="t_lisiado_telefono_conyugue" class="java.lang.String"/>
+	<field name="t_lisiado_numero_hijos" class="java.lang.Integer"/>
+	<field name="t_lisiado_nombre_hijo_mayor" class="java.lang.String"/>
+	<field name="t_lisiado_telefono_hijo" class="java.lang.String"/>
+	<field name="t_lisiado_celular_hijo" class="java.lang.String"/>
+	<field name="t_lisiado_tenencia_vivienda" class="java.lang.String"/>
+	<field name="t_lisiado_anhos_de_residencia" class="java.lang.Integer"/>
+	<field name="t_lisiado_propiedades" class="java.lang.String"/>
+	<field name="t_lisiado_presupuesto" class="java.lang.String"/>
+	<field name="t_lisiado_id_municipio" class="java.lang.Integer"/>
+	<field name="t_lisiado_experiencia_crediticia" class="java.lang.Boolean"/>
+	<field name="t_lisiado_monto_credito_experiencia" class="java.math.BigDecimal"/>
+	<field name="t_lisiado_institucion_crediticia" class="java.lang.String"/>
+	<field name="t_lisiado_tipo_lesion" class="java.lang.String"/>
+	<field name="t_lisiado_otras_enfermedades" class="java.lang.String"/>
+	<field name="t_lisiado_apellido_conyugue" class="java.lang.String"/>
+	<field name="t_lisiado_apellido_hijo" class="java.lang.String"/>
+	<field name="t_lisiado_edad_hijo" class="java.lang.Integer"/>
+	<field name="t_lisiado_carta_lisiado" class="java.lang.String"/>
+	<field name="t_lisiado_lugar_trabajo" class="java.lang.String"/>
+	<field name="t_lisiado_nombre_jefe" class="java.lang.String"/>
+	<field name="t_lisiado_cargo_trabajo" class="java.lang.String"/>
+	<field name="t_lisiado_telefono_trabajo" class="java.lang.String"/>
+	<field name="t_lisiado_id_cliente_lisiado" class="java.lang.Integer"/>
+	<field name="t_lisiado_edad_conyugue" class="java.lang.Integer"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<subreport>
+				<reportElement x="18" y="0" width="200" height="79" uuid="ab32e8fc-e6bc-45ec-ae3a-045fb7a2eda3"/>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "TituloFunda.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</title>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="651" splitType="Stretch">
+			<staticText>
+				<reportElement x="16" y="69" width="100" height="20" uuid="3397df0f-bad3-4d6f-ad3b-bbc9de82615a"/>
+				<text><![CDATA[CÓDIGO:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="260" y="69" width="128" height="20" uuid="d4e03d75-4416-4941-adf2-761a9a03aab6"/>
+				<text><![CDATA[NOMBRE:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="16" y="92" width="100" height="20" uuid="356f9e4d-c06b-4d7b-96fb-f32e6c5ab258"/>
+				<text><![CDATA[APELLIDOS:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="260" y="92" width="128" height="20" uuid="f3457c15-4aee-4b77-84c8-bd3a9e07e044"/>
+				<text><![CDATA[DUI:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="16" y="115" width="100" height="20" uuid="0be52d02-4ff5-413f-bdbe-fdb4f529feac"/>
+				<text><![CDATA[NIT:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="260" y="114" width="128" height="20" uuid="38cee90e-d87d-4ea8-9f57-172fe98f9f5c"/>
+				<text><![CDATA[FECHA DE NACIMIENTO:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="16" y="138" width="100" height="20" uuid="a1ed5451-8c83-41ee-a232-610c531af094"/>
+				<text><![CDATA[EDAD:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="260" y="138" width="128" height="20" uuid="ad07466c-51bb-4460-887a-dd0118773114"/>
+				<text><![CDATA[ESTADO FAMILIAR:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="16" y="161" width="100" height="20" uuid="8f821bdf-e143-4341-a15f-0561670447cb"/>
+				<text><![CDATA[SEXO:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="260" y="161" width="128" height="20" uuid="e79e53fa-da46-4feb-82ac-5518249fd08d"/>
+				<text><![CDATA[CORREO:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="16" y="184" width="100" height="20" uuid="72c09a09-6986-4494-8b72-de9c1e2f582f"/>
+				<text><![CDATA[TELÉFONO:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="260" y="184" width="128" height="20" uuid="1df50fc1-ba5d-4ef4-bf0c-35cabd858fad"/>
+				<text><![CDATA[MOVIL:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="16" y="206" width="100" height="20" uuid="5e935981-5111-46c4-af65-0714923a27aa"/>
+				<text><![CDATA[DIRECCIÓN:]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="116" y="69" width="137" height="20" uuid="fa2edd9d-23cb-4ff8-ac80-c3fe23559964"/>
+				<textFieldExpression><![CDATA[$F{t_cliente_codigo_cliente}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="388" y="69" width="149" height="20" uuid="a11dcf32-e2de-46ca-87f2-d9cb46d4e9bb"/>
+				<textFieldExpression><![CDATA[$F{t_cliente_nombre_cliente}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="116" y="92" width="137" height="20" uuid="1c768a4c-9a99-4916-b361-e06f2ba257a8"/>
+				<textFieldExpression><![CDATA[$F{t_cliente_apellido_cliente}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="388" y="92" width="149" height="20" uuid="3207b1c6-278f-41d4-bea3-7d893cdb4c06"/>
+				<textFieldExpression><![CDATA[$F{t_cliente_dui_cliente}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="116" y="115" width="137" height="20" uuid="701962b5-d447-4d10-9969-d69d106787f7"/>
+				<textFieldExpression><![CDATA[$F{t_cliente_nit_cliente}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="388" y="138" width="149" height="20" uuid="fefbcdd5-2048-4577-843e-f7a7758a8881"/>
+				<textFieldExpression><![CDATA[$F{t_cliente_estado_familiar}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="389" y="114" width="148" height="20" uuid="3a994c67-d5b2-4af4-b6b0-756b7a33f991"/>
+				<textFieldExpression><![CDATA[$F{t_cliente_fecha_nacimiento}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="116" y="184" width="137" height="20" uuid="0310a4d6-323a-4fbb-b3bc-380397226fcd"/>
+				<textFieldExpression><![CDATA[$F{t_cliente_telefono_cliente}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="388" y="161" width="149" height="20" uuid="a16fb629-b289-4144-a83e-a5e950108a18"/>
+				<textFieldExpression><![CDATA[$F{t_cliente_correo_cliente}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="388" y="184" width="149" height="20" uuid="88053f23-8905-47b2-83c3-3e1fa3dbf239"/>
+				<textFieldExpression><![CDATA[$F{t_cliente_celular_cliente}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="116" y="161" width="137" height="20" uuid="d2ac6e4f-7191-4ca4-a09d-b5154044dbf2"/>
+				<textFieldExpression><![CDATA[$F{t_cliente_sexo_cliente}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="116" y="206" width="421" height="20" uuid="a252fbf4-b663-4bd8-85aa-11e25bc87be1"/>
+				<textFieldExpression><![CDATA[$F{t_cliente_direccion_cliente}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="23" width="554" height="1" uuid="04e4d80c-f117-4f7f-a4e7-ef09e6dd16ed"/>
+			</line>
+			<textField>
+				<reportElement x="116" y="138" width="137" height="20" uuid="cf846b64-647c-434b-9488-5e0333d29b25"/>
+				<textFieldExpression><![CDATA[$P{edad}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Transparent" x="0" y="287" width="556" height="20" backcolor="#E5E5F4" uuid="04f1bf90-3354-4910-9c5c-a5aff7207844"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[CONYUGUE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="0" y="36" width="556" height="20" backcolor="#E5E5F4" uuid="e1410c22-0a3d-4fdb-9530-e67016c7b0d1"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[CLIENTE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="0" y="378" width="556" height="20" backcolor="#E5E5F4" uuid="1a5873eb-be85-47b7-b998-45f522a9c440"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[HIJOS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="0" y="499" width="556" height="20" backcolor="#E5E5F4" uuid="7306d8b7-9650-4a38-b1cb-898aec4e60cd"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[EXPERIENCIA CRÉDITICIA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="16" y="318" width="100" height="20" uuid="3b33c770-74e9-4eb5-8227-642254dbfe9e"/>
+				<text><![CDATA[NOMBRES:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="270" y="318" width="118" height="20" uuid="c05381d6-301e-4638-b39b-891f6d95424d"/>
+				<text><![CDATA[APELLIDOS:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="16" y="342" width="100" height="20" uuid="e771f67b-247a-4bdd-848c-ffca8c5f309f"/>
+				<text><![CDATA[EDAD:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="271" y="342" width="118" height="20" uuid="e0b32ed6-7c8e-437a-a109-bd177dda2a1f"/>
+				<text><![CDATA[TELÉFONO:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="16" y="242" width="100" height="20" uuid="3100da98-e2c8-4d1d-b0da-3f7a48169375"/>
+				<text><![CDATA[LESIÓN:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="261" y="242" width="117" height="20" uuid="da1f9c7d-4c0f-4b02-a7a6-63558073daa7"/>
+				<text><![CDATA[OTRAS ENFERMEDADES:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="388" y="242" width="149" height="20" uuid="5a93a9a8-0e7f-4f71-8c38-009331f18ded"/>
+				<textFieldExpression><![CDATA[$F{t_lisiado_otras_enfermedades}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="116" y="242" width="137" height="20" uuid="5e40c1c1-e61c-4585-8509-9b06cb4e05d9"/>
+				<textFieldExpression><![CDATA[$F{t_lisiado_tipo_lesion}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="116" y="318" width="137" height="20" uuid="33c63ccd-2673-4026-9896-bf8b2453af37"/>
+				<textFieldExpression><![CDATA[$F{t_lisiado_nombre_conyugue}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="388" y="318" width="149" height="20" uuid="ce7f1bdd-df29-4f6b-bd32-c2ab9f06e8d0"/>
+				<textFieldExpression><![CDATA[$F{t_lisiado_apellido_conyugue}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="116" y="342" width="137" height="20" uuid="eb0c51ff-d921-454d-8ad3-18ccd0deabec"/>
+				<textFieldExpression><![CDATA[$F{t_lisiado_edad_conyugue}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="389" y="342" width="148" height="20" uuid="57fc15de-9d83-43e5-b90a-8b2f8190f145"/>
+				<textFieldExpression><![CDATA[$F{t_lisiado_telefono_conyugue}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="16" y="409" width="117" height="20" uuid="0609db0a-c39f-4123-9459-6611537afcdc"/>
+				<text><![CDATA[NUMERO DE HIJOS:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="270" y="409" width="118" height="20" uuid="9fa76ed6-94a2-43c9-932a-dbb55f4b30a8"/>
+				<text><![CDATA[NOMBRE HIJO MAYOR:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="16" y="433" width="117" height="20" uuid="08544777-4a9c-404f-ad96-98574bc00763"/>
+				<text><![CDATA[APELLIDO HIJO MAYOR:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="271" y="433" width="100" height="20" uuid="71067a20-f336-435e-8b5e-f23ff35aecaf"/>
+				<text><![CDATA[EDAD HIJO MAYOR:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="15" y="459" width="132" height="20" uuid="4f34c6e5-1e6a-4060-8af5-23ea2c5e4657"/>
+				<text><![CDATA[TELÉFONO HIJO MAYOR:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="271" y="459" width="100" height="20" uuid="0d300474-5a64-42c0-aef7-d714b802ecdf"/>
+				<text><![CDATA[MOVIL HIJO MAYOR:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="133" y="409" width="137" height="20" uuid="046aa1d1-65db-4ebd-b65e-34fb0b8f7ab9"/>
+				<textFieldExpression><![CDATA[$F{t_lisiado_numero_hijos}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="388" y="409" width="149" height="20" uuid="77751c92-4785-4457-b997-ced7d49f8945"/>
+				<textFieldExpression><![CDATA[$F{t_lisiado_nombre_hijo_mayor}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="133" y="433" width="137" height="20" uuid="8347abb5-07f0-40a1-80f9-47ef17b8d257"/>
+				<textFieldExpression><![CDATA[$F{t_lisiado_apellido_hijo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="133" y="459" width="137" height="20" uuid="77183f81-6298-4ece-848e-6239b9c532a8"/>
+				<textFieldExpression><![CDATA[$F{t_lisiado_telefono_hijo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="388" y="459" width="149" height="20" uuid="dc37b7b1-f245-45ac-b7c7-42cb90fae23d"/>
+				<textFieldExpression><![CDATA[$F{t_lisiado_celular_hijo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="388" y="433" width="149" height="20" uuid="9ee7bff1-409e-42ed-a4f7-23be98bf1a81"/>
+				<textFieldExpression><![CDATA[$F{t_lisiado_edad_hijo}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="16" y="537" width="100" height="20" uuid="b843db25-64cf-4d20-82d6-f07512f84668"/>
+				<text><![CDATA[EXPERIENCIA:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="271" y="537" width="100" height="20" uuid="c470d766-4423-49ae-86fb-fae5c4f5180c"/>
+				<text><![CDATA[MONTO:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="16" y="561" width="100" height="20" uuid="35eb9228-cc21-4d72-9370-22fd81cc71fe"/>
+				<text><![CDATA[INSTITUCIÓN:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="116" y="537" width="137" height="20" uuid="f91d4c5b-cd4f-4186-b775-3414258235eb"/>
+				<textFieldExpression><![CDATA[$F{t_lisiado_experiencia_crediticia}.equals(true)? "Si":"No"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="370" y="537" width="167" height="20" uuid="d25deb27-d7f1-4893-a8e6-f655ff16b916"/>
+				<textFieldExpression><![CDATA[$F{t_lisiado_monto_credito_experiencia}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="116" y="561" width="421" height="20" uuid="643009c4-ea52-4f3c-8d63-09b3595583f3"/>
+				<textFieldExpression><![CDATA[$F{t_lisiado_institucion_crediticia}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="3" width="555" height="20" uuid="cf3a386d-9da0-460a-bd77-e8da35aeacfd"/>
+				<textElement textAlignment="Center">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[INFORME DE CLIENTE(PERSONA NATURAL)]]></text>
+			</staticText>
+			<line>
+				<reportElement x="1" y="56" width="554" height="1" uuid="c06c906b-30c6-4926-9b4a-6703b3075f9b"/>
+			</line>
+			<line>
+				<reportElement x="0" y="307" width="554" height="1" uuid="ac102fb1-4fdb-4a5d-ba4b-f2fe619c5e0c"/>
+			</line>
+			<line>
+				<reportElement x="0" y="397" width="554" height="1" uuid="d4694b50-ca0c-4b4d-98e9-effd43998514"/>
+			</line>
+			<line>
+				<reportElement x="1" y="519" width="554" height="1" uuid="e2c506cf-46e6-4350-85c5-bda0b46000b8"/>
+			</line>
+		</band>
+		<band height="733">
+			<image>
+				<reportElement x="40" y="67" width="472" height="610" uuid="6274ed56-1de0-46ba-ae8c-e02049435ce6"/>
+				<imageExpression><![CDATA[new ByteArrayInputStream(Base64.decodeBase64($F{t_cliente_dui_copia_cliente}.split(",")[1].getBytes()))]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement mode="Transparent" x="0" y="0" width="556" height="20" backcolor="#E5E5F4" uuid="0188442a-a1c5-45f4-a2c3-3f2fef299fcc"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[DUI]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="19" width="554" height="1" uuid="d544b4b2-6054-4cbb-a7d6-809f6c63ba20"/>
+			</line>
+		</band>
+		<band height="668">
+			<staticText>
+				<reportElement mode="Transparent" x="-1" y="0" width="556" height="20" backcolor="#E5E5F4" uuid="d57ac4a9-bf23-460a-a326-a9bd9c472422"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[NIT]]></text>
+			</staticText>
+			<image>
+				<reportElement x="39" y="45" width="474" height="565" uuid="9642a780-e104-4f67-af74-a4ec2bdb78b0"/>
+				<imageExpression><![CDATA[new ByteArrayInputStream(Base64.decodeBase64($F{t_cliente_nit_copia_cliente}.split(",")[1].getBytes()))]]></imageExpression>
+			</image>
+			<line>
+				<reportElement x="1" y="19" width="553" height="1" uuid="718a2ee2-b3d5-460b-95a2-81fa031ace58"/>
+			</line>
+		</band>
+		<band height="748">
+			<staticText>
+				<reportElement mode="Transparent" x="0" y="0" width="556" height="20" backcolor="#E5E5F4" uuid="b19700be-5fcf-41f4-8b05-ee5829b8f4c9"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[CARTA DE FONDO DE LISIADO]]></text>
+			</staticText>
+			<image>
+				<reportElement x="40" y="69" width="472" height="631" uuid="e4667571-13ff-47a9-abed-fe19592dd46d"/>
+				<imageExpression><![CDATA[new ByteArrayInputStream(Base64.decodeBase64($F{t_lisiado_carta_lisiado}.split(",")[1].getBytes()))]]></imageExpression>
+			</image>
+			<line>
+				<reportElement x="1" y="20" width="554" height="1" uuid="6bf8c3c5-31f5-47e9-b802-4d79b0b724bb"/>
+			</line>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="54" splitType="Stretch">
+			<textField>
+				<reportElement x="432" y="22" width="80" height="20" uuid="6551ce9a-22ab-4cca-b418-8859ca126fa4"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="513" y="22" width="40" height="20" uuid="06cf2a02-f7e1-4804-b046-03574bfa8027"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>

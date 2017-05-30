@@ -1,0 +1,461 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <body>
+        <ui:composition template="./../index.xhtml">
+
+            <ui:define name="content">
+
+                <style>
+                    #fAgregarPeriodoEjer\:pgAgregarPeriodo td{
+                        border: none !important;
+                    }
+
+                    #fAgregarPeriodoEjer\:pgAgregarPeriodo tr{
+                        border: none !important;
+                    }
+
+                    #fFiltro\:pgfiltro td{
+                        border: none !important;
+                    }
+                    #fFiltro\:pgfiltro tr{
+                        border: none !important;
+                    }
+
+                    .borderHidden.ui-panelgrid>*>tr,
+                    .borderHidden.ui-panelgrid .ui-panelgrid-cell {
+                        border: none;
+                    }
+                </style>
+
+                <p:outputPanel id="padding"  > 
+                    <p:panel id="pDatosPeriodos" header="Administrar periodos" style="margin-bottom:20px">
+                        <h:form id="fFiltro"> 
+                            <p:fieldset>
+                                <p:panelGrid style=" width: 100%" id="pgfiltro" >
+                                    <p:row>
+                                        <p:column style=" width: 60%" >
+                                            <h:outputText value="Entidad:*" /> 
+                                        </p:column>
+
+                                        <p:column style=" width: 40%"  >
+                                            <h:outputText value="" />  
+                                        </p:column>
+                                    </p:row>
+                                    <p:row>
+                                        <p:column >
+                                            <p:outputPanel id="opPrede" rendered="#{ejercicioBean.estadoPredeterminado eq true? true:true}"  >
+                                                <p:selectOneMenu id="car" disabled="#{ejercicioBean.estadoPredeterminado}"  value="#{ejercicioBean.idEntidad}"  style=" width: 100%;"   > 
+                                                    <f:selectItem itemLabel="[SELECCIONE]" itemValue="0"   />
+                                                    <f:selectItems  var="end"  value="#{ejercicioBean.listaEntidades}" itemLabel="#{end.nombreEntidad}" itemValue="#{end.idEntidad}" itemDisabled="#{end.estadoEntidad eq true?false:true }" />
+                                                    <p:ajax update=":padding"></p:ajax>
+                                                </p:selectOneMenu>
+                                            </p:outputPanel>
+                                        </p:column>
+
+                                        <p:column > 
+                                            <p:outputPanel rendered="#{ejercicioBean.idEntidad eq 0? false : true}">
+                                                <p:selectBooleanCheckbox value="#{ejercicioBean.estadoPredeterminado}" >
+                                                    <p:ajax update="opPrede" listener="#{ejercicioBean.cambiarPredeterminado()}" />
+                                                </p:selectBooleanCheckbox> <h:outputText value="&nbsp;&nbsp;&nbsp; ¿Predeterminar?"/> 
+                                            </p:outputPanel>
+                                        </p:column>
+
+                                    </p:row>
+                                </p:panelGrid>
+                            </p:fieldset>
+                        </h:form>
+
+                        <br></br>
+
+
+                        <p:outputPanel rendered="#{ejercicioBean.idEntidad eq 0? false : true}"  id="opData"  >
+                            <p:growl id="msgs"   />
+                            <p:outputPanel rendered="#{ejercicioBean.showCreate}"   >
+                                <p:dialog  header="Confirmar" widgetVar="dialogPeriodoEjer" modal="true" showEffect="fade" hideEffect="fade" resizable="false" width="25%" appendTo="@(body)" visible="#{ejercicioBean.estadoValido}">
+                                    <h:form>
+                                        <div align="center">
+                                            ¿Estás seguro de guardar?
+                                            <br></br>
+                                            <hr></hr>
+                                            <p:commandButton value="Si" id="withI" actionListener="#{ejercicioBean.crearInicio}"  oncomplete="PF('dialogPeriodoEjer').hide()" update="opData"  style="#{ejercicioBean.btnNuevo}"> </p:commandButton>
+                                            <p:commandButton value="No" id="with"   oncomplete="PF('dialogPeriodoEjer').hide()"   style="#{ejercicioBean.btnCancelar}"  >
+                                                <f:setPropertyActionListener value="#{false}" target="#{ejercicioBean.estadoValido}" />
+                                            </p:commandButton>
+                                        </div>
+                                    </h:form>
+                                </p:dialog>
+                                <h:form id="fAgregarPeriodoEjer">
+                                    <h:outputText value="Nueva contabilidad "></h:outputText>
+                                    <p:fieldset  >
+                                        <p:panelGrid id="pgAgregarPeriodo"  style="width: 100%; margin: auto;">   
+                                            <p:row>
+                                                <p:column style="width: 50%">
+                                                    <h:outputText value="Ejercicio: *"/>
+                                                </p:column>
+                                                <p:column style="width: 50%">
+                                                    <h:outputText value="Periodo: *" />
+                                                </p:column>
+                                            </p:row>
+                                            <p:row>
+                                                <p:column>
+                                                    <p:selectOneMenu id="Ejer" value="#{ejercicioBean.ejercicio.ahoEjercicio}" style="width:100%" >
+                                                        <f:selectItem itemLabel="[SELECCIONE]" itemValue="0" />
+                                                        <f:selectItem itemLabel="2014" itemValue="2014" />
+                                                        <f:selectItem itemLabel="2015" itemValue="2015" />
+                                                        <f:selectItem itemLabel="2016" itemValue="2016" />
+                                                        <f:selectItem itemLabel="2017" itemValue="2017" />
+                                                        <f:selectItem itemLabel="2018" itemValue="2018" />
+                                                        <f:selectItem itemLabel="2019" itemValue="2019" />
+                                                        <f:selectItem itemLabel="2020" itemValue="2020" />
+                                                        <f:selectItem itemLabel="2021" itemValue="2021" />
+                                                        <f:selectItem itemLabel="2022" itemValue="2022" />
+                                                        <f:selectItem itemLabel="2023" itemValue="2023" />
+                                                        <f:selectItem itemLabel="2024" itemValue="2024" />
+                                                        <f:selectItem itemLabel="2025" itemValue="2025" />
+                                                    </p:selectOneMenu>    
+                                                    <h:outputText value="#{ejercicioBean.msgEjercicio}" style="color: red"/> 
+                                                </p:column>
+                                                <p:column>
+                                                    <p:selectOneMenu id="sPeriodo" value="#{ejercicioBean.periodoNuevo.mesPeriodo}" style="width: 100%" >
+                                                        <f:selectItem itemLabel="[SELECCIONE]" itemValue="0" />
+                                                        <f:selectItem itemLabel="Enero" itemValue="Enero" />
+                                                        <f:selectItem itemLabel="Febrero" itemValue="Febrero" />   
+                                                        <f:selectItem itemLabel="Marzo" itemValue="Marzo" /> 
+                                                        <f:selectItem itemLabel="Abril" itemValue="Abril" /> 
+                                                        <f:selectItem itemLabel="Mayo" itemValue="Mayo" /> 
+                                                        <f:selectItem itemLabel="Junio" itemValue="Junio" /> 
+                                                        <f:selectItem itemLabel="Julio" itemValue="Julio" />
+                                                        <f:selectItem itemLabel="Agosto" itemValue="Agosto" />
+                                                        <f:selectItem itemLabel="Septiembre" itemValue="Septiembre" />
+                                                        <f:selectItem itemLabel="Octubre" itemValue="Octubre" /> 
+                                                        <f:selectItem itemLabel="Noviembre" itemValue="Noviembre" /> 
+                                                        <f:selectItem itemLabel="Diciembre" itemValue="Diciembre" /> 
+                                                    </p:selectOneMenu>
+                                                    <h:outputText value="#{ejercicioBean.msgPeriodo}" style="color: red"/> 
+                                                </p:column>
+                                            </p:row>
+                                        </p:panelGrid>
+                                    </p:fieldset>
+                                    <br></br>
+                                    <center>
+                                        <p:commandButton id="btnAgregar"    icon="fa fa-check" style="#{ejercicioBean.btnCrear}" value="Guardar" actionListener="#{ejercicioBean.validarFormularioInicio}" update="opData" > 
+                                        </p:commandButton>
+
+                                        <p:commandButton id="btnLimpiar" actionListener="#{ejercicioBean.limpiar()}" update="opData"  icon="fa fa-minus"  style="#{ejercicioBean.btnLimpiar}"  value="Limpiar"> 
+                                        </p:commandButton>
+
+                                        <p:commandButton id="btnCancelar"  update=":padding"    icon="fa fa-close" style="#{ejercicioBean.btnCancelar}"   value="Cancelar"> 
+                                            <f:setPropertyActionListener value="#{ejercicioBean.tipoCancelar()}" target="#{ejercicioBean.idEntidad}"></f:setPropertyActionListener>
+                                        </p:commandButton>
+                                    </center>
+                                </h:form>
+                            </p:outputPanel>
+
+
+                            <p:outputPanel rendered="#{ejercicioBean.showData}"   >
+
+                                <h:form id="fDatosPeriodos">
+
+                                    <p:tabView    value="#{ejercicioBean.listaEjercicios}" var="ejer"  >
+
+                                        <p:tab title="#{ejer.ahoEjercicio} " >
+
+                                            <p:fieldset rendered="#{ejer.estadoEjercicio}">
+
+
+                                                <p:splitButton  update="opData"   actionListener="#{ejercicioBean.enableShowUpdate()}" style="#{ejercicioBean.btnDarDeAlta}" 
+                                                                icon="fa fa-plus" disabled="#{ejercicioBean.mesCierre(ejer.idEjercicio)}">
+                                                <f:setPropertyActionListener value="#{ejer.idEjercicio}" target="#{ejercicioBean.idEjer}"/>
+                                                
+                                                <p:menuitem value="Cerrar ejercicio" update="opData"   actionListener="#{ejercicioBean.enableShowUpdate()}"       icon="fa fa-times"   >
+                                                    <f:setPropertyActionListener value="#{ejer.idEjercicio}" target="#{ejercicioBean.idEjer}"/>
+                                                </p:menuitem>
+
+                                                </p:splitButton>
+
+
+                                           
+                                            </p:fieldset>
+
+
+
+                                            <p:dataTable   id="dtDatosPeriodos"
+                                                           var="per" 
+                                                           value="#{ejercicioBean.listaPeriodoEjercicio(ejer.idEjercicio)}" 
+                                                           emptyMessage="No se encontraron periodos"
+                                                           >
+
+                                                <p:columnGroup type="header">
+                                                    <p:row>
+                                                        <p:column headerText="Mes"/>
+                                                        <p:column headerText="Estado"/>
+                                                    </p:row>
+
+                                                </p:columnGroup>
+
+                                                <p:column>
+                                                    <h:outputText value="#{per.mesPeriodo}" />
+                                                </p:column>
+
+                                                <p:column rendered="#{per.estadoPeriodo}" headerText="Estado">
+                                                    <center>
+
+                                                        <i class="fa fa-unlock-alt fa-lg" style="color: greenyellow" title="Abierto"  ></i>
+                                                    </center>
+                                                </p:column>
+
+                                                <p:column rendered="#{!per.estadoPeriodo}" headerText="Estado" >
+
+                                                    <center>
+
+                                                        <i class="fa fa-lock fa-lg" style="color: red" title="Cerrado"  ></i>
+                                                    </center>
+                                                </p:column>
+                                                <f:facet name="footer">
+                                                </f:facet>
+                                            </p:dataTable>
+                                        </p:tab>
+                                    </p:tabView>
+                                </h:form>
+                            </p:outputPanel>
+
+
+                            <p:outputPanel rendered="#{ejercicioBean.showUpdate}" >
+
+                                <p:dialog  header="Confirmar" widgetVar="dialogPeriodoEjer" modal="true" showEffect="fade" hideEffect="fade" resizable="false" width="25%" appendTo="@(body)">
+                                    <h:form>
+                                        <div align="center">
+                                            ¿Estás seguro de guardar?
+                                            <br></br>
+                                            <hr></hr>
+                                            <p:commandButton value="Si" id="withI" actionListener="#{ejercicioBean.crearCierrePeriodo()}"  oncomplete="PF('dialogPeriodoEjer').hide()" update="opData"  style="#{ejercicioBean.btnNuevo}"> </p:commandButton>
+                                            <p:commandButton value="No" id="with"   oncomplete="PF('dialogPeriodoEjer').hide()"   style="#{ejercicioBean.btnCancelar}"  >
+
+                                            </p:commandButton>
+                                        </div>
+                                    </h:form>
+                                </p:dialog>
+
+
+                                <h:form >
+                                    <p:panelGrid id="pgAgregarPeriodo"  style="width: 100%; margin: auto;">   
+                                        <p:row>
+                                            <p:column style="width: 50%">
+                                                <h:outputText value="Cerrando: #{ejercicioBean.periodoViejo.mesPeriodo}"/>
+                                            </p:column>
+                                            <p:column style="width: 50%">
+                                                <h:outputText value="Abriendo: #{ejercicioBean.periodoNuevo.mesPeriodo} " />
+                                                <h:outputText value="#{ejercicioBean.limpiarAux} " />
+                                            </p:column>
+                                        </p:row>
+                                    </p:panelGrid>
+                                    <br></br>
+                                    <p:tabView >
+                                        <p:tab title="Depreciación" >
+                                            <ui:repeat value="#{ejercicioBean.listaTipoActivo}" var="tip" >
+                                                <p:outputPanel rendered="#{tip.calculoTipoActivo eq 'Tangible' ? true : false}" >
+                                                    <h:outputText value="#{tip.nombreTipo}" />
+                                                    <p:dataTable   
+                                                        var="act" 
+                                                        value="#{ejercicioBean.listaActivosDepre(tip.TActivoFijos)}" 
+                                                        emptyMessage="No se encontraron activos"
+                                                        rowIndexVar="No"
+                                                        >
+
+                                                        <p:columnGroup type="header">
+                                                            <p:row>
+                                                                <p:column headerText="Nº" style="width: 5%"   />
+                                                                <p:column headerText="Codigo" style="width: 25%"/>
+                                                                <p:column headerText="Descripción" style="width: 30%"/>
+
+                                                                <p:column headerText="Depreciación mensual"/>
+                                                            </p:row>
+                                                        </p:columnGroup>
+                                                        <p:column>
+                                                            <h:outputText value="#{No+1}" />
+                                                        </p:column>
+                                                        <p:column>
+                                                            <h:outputText value="#{ejercicioBean.cogigoGenerar(act)}"/>
+                                                        </p:column>
+                                                        <p:column>
+                                                            <h:outputText value="#{act.descripcionActivoFijo}"/>
+                                                        </p:column>
+                                                        <p:column>
+                                                            <h:outputText value="$ #{ejercicioBean.depreMensualSuma(act)}" >
+                                                                <f:convertNumber     pattern=",#00.00" locale="en-US" />
+                                                            </h:outputText>
+                                                        </p:column>
+                                                        <f:facet name="footer">
+                                                        </f:facet>
+                                                    </p:dataTable>
+                                                </p:outputPanel  >
+                                            </ui:repeat>
+                                        </p:tab>
+                                        <p:tab title="Amortización" >
+                                            <ui:repeat value="#{ejercicioBean.listaTipoActivo}" var="tip" >
+                                                <p:outputPanel rendered="#{tip.calculoTipoActivo eq 'Tangible' ? false:true}" >
+                                                    <h:outputText value="#{tip.nombreTipo}" />
+                                                    <p:dataTable   
+                                                        var="act" 
+                                                        value="#{ejercicioBean.listaActivosDepre(tip.TActivoFijos)}" 
+                                                        emptyMessage="No se encontraron activos"
+                                                        rowIndexVar="No"
+                                                        >
+                                                        <p:columnGroup type="header">
+                                                            <p:row>
+                                                                <p:column headerText="Nº" style="width: 5%"   />
+                                                                <p:column headerText="Codigo" style="width: 25%"/>
+                                                                <p:column headerText="Descripción" style="width: 30%"/>
+                                                                <p:column headerText="Depreciación mensual"/>
+                                                            </p:row>
+                                                        </p:columnGroup>
+
+                                                        <p:column>
+                                                            <h:outputText value="#{No+1}" />
+                                                        </p:column>
+                                                        <p:column>
+                                                            <h:outputText value="#{act.codigoActivoFijo}"/>
+                                                        </p:column>
+                                                        <p:column>
+                                                            <h:outputText value="#{act.descripcionActivoFijo}"/>
+                                                        </p:column>
+                                                        <p:column>
+                                                            <h:outputText value="$ #{ejercicioBean.depreMensualSuma(act)}">
+                                                                <f:convertNumber     pattern=",#00.00" locale="en-US" />
+                                                            </h:outputText>
+                                                        </p:column>
+                                                        <f:facet name="footer">
+                                                        </f:facet>
+                                                    </p:dataTable>
+                                                </p:outputPanel  >
+
+                                            </ui:repeat>
+                                        </p:tab>
+                                        <p:tab title="Asiento contable" >
+                                            <p:outputPanel rendered="#{ejercicioBean.listaDetallePartida.size() eq 0? false:true}">
+                                                <h:outputText value="Generales"/>
+                                                <p:fieldset style="margin-bottom:20px">
+                                                    <p:panelGrid id="addPanel"  style="width: 100%; margin: auto;" styleClass="borderHidden">   
+                                                        <p:row>
+                                                            <p:column style="width: 33%; ">
+                                                                <h:outputText value="Numero: *" />
+                                                            </p:column>
+                                                            <p:column style="width: 33%; ">
+
+                                                            </p:column>
+                                                            <p:column style="width: 33%; ">
+                                                                <h:outputText value="Fecha: *" />
+                                                            </p:column>         
+                                                        </p:row>
+                                                        <p:row>
+                                                            <p:column>
+                                                                <p:inputText id="tNumero" style="width: 100%" value="#{ejercicioBean.numPartida}"  readonly="true"/>
+                                                            </p:column>
+                                                            <p:column>
+                                                            </p:column>
+                                                            <p:column>
+                                                                <p:calendar id="cFechaIngreso" showOn="button" value="#{ejercicioBean.partida.fechaPartida}"  readonly="true" maxdate="#{ejercicioBean.partida.fechaPartida}" style="width:100%" locale="es" navigator="true"    pattern="dd/MM/yyyy"/>
+                                                            </p:column>
+                                                        </p:row>
+                                                        <p:row>
+                                                            <p:column colspan="3">
+                                                                <h:outputText value="Concepto: *"/>
+                                                            </p:column>
+
+                                                        </p:row>
+                                                        <p:row>
+                                                            <p:column colspan="3">
+                                                                <p:inputTextarea id="taConcepto" rows="2" cols="90" style="width: 100%; " value="#{ejercicioBean.partida.conceptoPartida}" readonly="true"/>
+                                                            </p:column>
+
+                                                        </p:row>
+
+
+                                                    </p:panelGrid>
+                                                </p:fieldset>
+                                                <br></br>
+                                                <p:dataTable   id="dtTras"
+                                                               var="detPar" 
+                                                               value="#{ejercicioBean.listaDetallePartida}" 
+                                                               rowIndexVar="i"
+                                                               >
+                                                    <p:columnGroup type="header">
+                                                        <p:row>
+                                                            <p:column headerText="No. de Cuenta"/>
+                                                            <p:column headerText="Nombre Cuenta"/>
+                                                            <p:column headerText="Debe"/>
+                                                            <p:column headerText="Haber"/>
+                                                        </p:row>
+                                                    </p:columnGroup>
+                                                    <p:column>
+                                                        <h:outputText value="#{detPar.TCuenta.codigoCuenta}" />
+                                                    </p:column>
+                                                    <p:column>
+                                                        <h:outputText value="#{detPar.TCuenta.nombreCuenta}"/>
+                                                    </p:column>
+                                                    <p:column>
+                                                        <h:outputText value="#{ detPar.tipoSaldoDetallePartida  eq 'Debe' ? detPar.saldoDetallePartida : '' }" >
+                                                            <f:convertNumber     pattern=",#00.00" locale="en-US" />
+                                                        </h:outputText>
+                                                    </p:column>
+
+                                                    <p:column>
+                                                        <h:outputText value="#{ detPar.tipoSaldoDetallePartida  eq 'Debe' ? '' : detPar.saldoDetallePartida }" >
+                                                            <f:convertNumber     pattern=",#00.00" locale="en-US" />
+                                                        </h:outputText>
+                                                    </p:column>
+                                                </p:dataTable>
+                                                <br></br> 
+                                                <br></br>   
+                                                <h:outputText value="Totales"/>
+                                                <p:fieldset>
+                                                    <h:outputText value="Debe: "/>   <h:outputText value="#{ejercicioBean.totalDebe}      ">
+                                                        <f:convertNumber     pattern=",#00.00" locale="en-US" />
+                                                    </h:outputText> 
+                                                    <h:outputText value="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Haber: "/>  <h:outputText value="#{ejercicioBean.totalHaber}     ">
+                                                        <f:convertNumber     pattern=",#00.00" locale="en-US" />
+                                                    </h:outputText> 
+                                                </p:fieldset>
+                                                <br></br>
+                                            </p:outputPanel>
+                                        </p:tab>
+                                    </p:tabView>
+                                    <br></br>
+                                    <center>
+                                        <p:commandButton     icon="fa fa-check" style="#{ejercicioBean.btnCrear}" value="Guardar" oncomplete="PF('dialogPeriodoEjer').show()"  > 
+                                        </p:commandButton>
+
+                                        <p:commandButton     update="opData" actionListener="#{ejercicioBean.enableShowData()}"    icon="fa fa-close" style="#{ejercicioBean.btnCancelar}"   value="Cancelar"> 
+                                        </p:commandButton>
+                                    </center>
+                                </h:form>
+
+                            </p:outputPanel>
+
+                        </p:outputPanel>
+
+                    </p:panel>
+
+                </p:outputPanel>
+            </ui:define>
+
+            <ui:define name="aux">
+                <script>
+                    $(document).ready(function () {
+                        $("#cont").addClass("active");
+                    });
+                </script>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>
+
+

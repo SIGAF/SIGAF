@@ -1,0 +1,474 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <body>
+        <ui:composition template="./../index.xhtml">
+
+            <ui:define name="content">
+                <style>
+
+                    .borderHidden.ui-panelgrid>*>tr,
+                    .borderHidden.ui-panelgrid .ui-panelgrid-cell {
+                        border: none;
+                    }
+
+                    .companyHeaderGrid.ui-panelgrid>*>tr,
+                    .companyHeaderGrid.ui-panelgrid .ui-panelgrid-cell {
+                        border: none;
+                    }
+
+                    .borderHidden.ui-panelgrid>*>tr,
+                    .borderHidden.ui-panelgrid .ui-panelgrid-cell {
+                        border: none;
+                    }
+
+                    .ui-datalist-content{
+                        border: none;
+
+                    }
+
+                    .opciones .ui-selectonemenu-list { 
+                        height: 100px;
+                    }
+
+                    #fLisiados\:main-panel td{
+                        border: none !important;
+                    }
+
+                    #fLisiados\:main-panel tr{
+                        border: none !important;
+                    }
+
+                </style>
+                <!-- Nuevo pago -->
+
+
+
+                <p:outputPanel id="padding">
+                    <p:growl id="msgs" />
+
+
+                    <p:outputPanel  rendered="#{pagoAgronegocioBean.showCreate}" style=" width: 100%">
+                        <h:form id="fAgregarArea">
+                            <p:panel id="pRegistrarComprador" header="Agregar pago"  style="width: 100%; margin: auto; margin-bottom: 20px">
+
+
+                                <p:panelGrid styleClass="borderHidden"  style="width: 100%; margin: auto;">   
+                                    <p:row>
+                                        <p:column style=" width: 40%">
+                                        </p:column>
+
+                                        <p:column style=" width: 40%">
+                                        </p:column>
+                                        <p:column colspan="1" style=" width: 20%"> 
+
+                                           
+                                        </p:column>
+
+
+                                    </p:row>
+
+                                </p:panelGrid>
+
+                                
+
+                                <p:panelGrid id="pgAgregar"  style="width: 100%; margin: auto;">   
+                                    <p:row>
+                                        <p:column colspan="1" style=" width: 25%; background-color:#ebedf0">
+                                            <center>  <h:outputText value="Agronegocio"/> </center> 
+                                        </p:column>
+
+                                        <p:column colspan="3" style=" width: 25%; background-color: #ebedf0 "> 
+                                            <center>           <h:outputText value="Pago"/> </center> 
+                                        </p:column>
+
+
+
+
+                                    </p:row>
+
+                                    <p:row>
+                                        <p:column style=" width: 50%">
+                                            <h:outputText value="Código: #{pagoAgronegocioBean.agronegocioSeleccionado.codigo}"/> <br></br>
+
+                                            <h:outputText value="Comprador: #{pagoAgronegocioBean.agronegocioSeleccionado.TComprador.nombresComprador} #{pagoAgronegocioBean.agronegocioSeleccionado.TComprador.apellidosComprador}"/> <br></br>
+
+                                            <h:outputText value="DUI: #{pagoAgronegocioBean.agronegocioSeleccionado.TComprador.duiComprador}"/> <br></br>
+
+                                            <h:outputText value="Tipo: #{pagoAgronegocioBean.agronegocioSeleccionado.tipo}"/> <br></br>
+
+                                            <h:outputText value="Plazo: #{pagoAgronegocioBean.agronegocioSeleccionado.plazo}"/> <br></br>
+                                            
+                                          
+                                            
+                                             <h:outputText value="Fecha: "/>  <h:outputText value="#{pagoAgronegocioBean.fechaDePago}">
+                                                <f:convertDateTime pattern="dd/MM/yyyy" /> </h:outputText> <br></br>
+
+                                            <h:outputText value="Fecha correspondiente de pago:"/>
+                                            <h:outputText value="#{pagoAgronegocioBean.agronegocioSeleccionado.fechapago}">
+                                                <f:convertDateTime pattern="dd/MM/yyyy" /> 
+                                            </h:outputText>
+
+
+
+                                            <br></br>
+                                            <h:outputText value="Días de retraso en el pago: #{pagoAgronegocioBean.dias}"/> <br></br>
+
+
+                                        </p:column>
+
+                                        <p:column colspan="2" style=" width: 25%">
+
+                                            <h:outputText value="Monto: "/> 
+
+                                            <br></br>                                            
+                                            <h:outputText value="Interés ("/>
+                                            
+                                            <h:outputText value="#{pagoAgronegocioBean.politicaAgronegocioSeleccionado.tasaInteresAgronegocio}">
+
+                                                <f:convertNumber  pattern="#0.00" locale="en-US" />
+
+
+
+
+
+                                            </h:outputText>
+                                            
+                                            <h:outputText value="%):"/>
+                                            
+                                            <br></br>
+
+                                            <h:outputText value="Interés por retraso ("/>
+                                            
+                                            <h:outputText value="#{pagoAgronegocioBean.politicaAgronegocioSeleccionado.tasaMoraAgronegocio}">
+
+                                                <f:convertNumber  pattern="#0.00" locale="en-US" />
+
+
+
+
+
+                                            </h:outputText>
+                                            
+                                            <h:outputText value="%):"/>
+                                            
+                                            
+                                            
+                                            <br></br>
+
+                                            <h:outputText value="Total:"/><br></br>
+
+                                            <h:outputText value="Comisión ("/>
+                                            
+                                            <h:outputText value="#{pagoAgronegocioBean.politicaAgronegocioSeleccionado.tasaComisionAgronegocio}">
+
+                                                <f:convertNumber  pattern="#0.00" locale="en-US" />
+
+
+
+
+
+                                            </h:outputText>
+                                            
+                                            <h:outputText value="%):"/>
+
+
+                                        </p:column>
+
+                                        <p:column style=" width: 25%">
+                                            <h:outputText value="$"/>
+                                            <h:outputText value="#{pagoAgronegocioBean.monto}">
+
+                                                <f:convertNumber  pattern=",#00.00" locale="en-US" />
+
+
+
+
+
+                                            </h:outputText><br></br>
+                                            <h:outputText value="$"/>
+                                            <h:outputText value="#{pagoAgronegocioBean.interes}">
+
+                                                <f:convertNumber  pattern=",#00.00" locale="en-US" />
+
+
+
+
+
+                                            </h:outputText><br></br>
+                                            <h:outputText value="$"/>
+                                            <h:outputText value="#{pagoAgronegocioBean.mora}">
+
+
+
+                                                <f:convertNumber  pattern="#0.00" locale="en-US" />
+
+
+
+                                            </h:outputText><br></br>
+
+                                            <h:outputText value="$"/>
+                                            <h:outputText value="#{pagoAgronegocioBean.totales}">
+
+
+                                                <f:convertNumber  pattern="#0.00" locale="en-US" />
+
+
+
+
+                                            </h:outputText><br></br>
+
+                                            <h:outputText value="$"/>
+                                            <h:outputText value="#{pagoAgronegocioBean.comision}">
+
+                                                <f:convertNumber  pattern="#0.00" locale="en-US" />
+
+
+
+
+
+                                            </h:outputText><br></br>
+
+
+
+                                        </p:column>
+                                    </p:row>
+
+
+
+
+
+                                </p:panelGrid>
+                                <br></br>
+                                <h:outputText value="Forma de pago"/> 
+                                <p:fieldset>
+
+                                    <p:panelGrid styleClass="borderHidden" style=" width: 100%">
+
+
+                                        <p:column colspan="1" style=" width: 50%"> 
+                                            <p:outputPanel id="formas">
+                                                <h:outputText  value="Efectivo:"/> &nbsp;&nbsp;  <p:selectBooleanCheckbox  value="#{pagoAgronegocioBean.tipoefectivo}" >
+                                                    <p:ajax update="numeroCheque formas" listener="#{pagoAgronegocioBean.cambiarForma1}" />
+                                                </p:selectBooleanCheckbox> 
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+                                                <h:outputText  value="Cheque:"/> &nbsp;&nbsp; <p:selectBooleanCheckbox  value="#{pagoAgronegocioBean.tipocheque}"  >
+                                                    <p:ajax update="numeroCheque formas"  listener="#{pagoAgronegocioBean.cambiarForma2}" />
+                                                </p:selectBooleanCheckbox>
+                                            </p:outputPanel>
+                                        </p:column>
+
+                                        <p:column colspan="1">
+                                            <p:outputPanel id="numeroCheque">
+                                                <h:outputText  value="Numero de cheque: "/>
+                                                <p:inputText disabled="#{pagoAgronegocioBean.habilitar}" value="#{pagoAgronegocioBean.pago.cheque}"  style=" width: 55%" /> 
+
+                                            </p:outputPanel>
+                                        </p:column>
+
+
+                                    </p:panelGrid>
+
+
+                                </p:fieldset>
+
+
+
+                                <br></br>
+                                <div align="center">
+                                    <p:commandButton id="btnCrear" title="Registrar" value="Guardar"  actionListener="#{pagoAgronegocioBean.validarFormulario}"  update=":padding"   icon="fa fa-check" style="#{pagoAgronegocioBean.btnCrear}">
+                                    </p:commandButton> 
+                                    <p:commandButton  actionListener="#{pagoAgronegocioBean.limpiar}" type="reset" icon="fa fa-minus" title="Cancelar" value="Limpiar" style="#{pagoAgronegocioBean.btnLimpiar}"> 
+                                    </p:commandButton>
+                                    <p:commandButton  actionListener="#{pagoAgronegocioBean.enableShowData}" update=":padding" icon="fa fa-close" title="Cancelar" value="Cancelar" style="#{pagoAgronegocioBean.btnCancelar}"> 
+                                    </p:commandButton>
+                                </div>
+                            </p:panel>
+                        </h:form>
+                        <p:dialog header="Confirmar" widgetVar="pgGuardar" modal="true" visible="#{pagoAgronegocioBean.estadoFormulario}" resizable="true" responsive="true" styleClass="ui-panelgrid-blank" appendTo="@(body)">
+                            <h:form>
+                                <p:outputPanel style="text-align:center;">
+                                    <p:panelGrid>
+                                        <h:outputText value="¿Desea realizar este pago?"/>
+                                    </p:panelGrid>
+                                    <hr></hr>
+                                    <center>
+                                        <p:commandButton value="Si" actionListener="#{pagoAgronegocioBean.registtrarPago()}"  update=":padding" oncomplete="PF('pgGuardar').hide()" icon="fa fa-check" style="#{pagoAgronegocioBean.btnNuevo}">
+                                        </p:commandButton>
+                                        <p:commandButton oncomplete="PF('pgGuardar').hide()"   icon="fa fa-close"  value="No" style="#{pagoAgronegocioBean.btnCancelar}"> 
+                                            <f:setPropertyActionListener value="#{false}" target="#{pagoAgronegocioBean.estadoFormulario}" />
+                                        </p:commandButton>
+                                    </center>
+                                </p:outputPanel>
+                            </h:form>
+                        </p:dialog>
+
+                    </p:outputPanel>
+
+
+
+                    <p:outputPanel rendered="#{pagoAgronegocioBean.showData}">
+                        <p:panel id="custom" header="Administrar pagos" style=" width: 100%; margin:  auto;margin-bottom:20px">
+                            <h:form id="fData" target="_blank">
+                                <br></br>
+                                <p:fieldset>
+                                    <p:panelGrid  style=" width: 100%;" styleClass="borderHidden" >
+                                        <p:row>
+
+                                            <p:column style=" width: 10%"   >
+
+                                                <h:outputText value="Código del agronegocio:" /> 
+
+                                            </p:column>
+
+                                            <p:column style=" width: 10%"   >
+                                                <h:outputText value="Dui comprador:" /> 
+
+                                            </p:column>
+
+                                            <p:column style=" width: 10%"   >
+
+                                            </p:column>
+                                        </p:row>
+
+                                        <p:row>
+
+                                            <p:column    >
+
+                                                <p:inputText style=" width: 80%;" value="#{pagoAgronegocioBean.codigoAgronegocio}" > </p:inputText>  &nbsp; &nbsp;<p:commandButton  update=":padding" actionListener="#{pagoAgronegocioBean.mostrarAgronegocios}" icon="fa fa-search" title="Buscar" >
+                                                </p:commandButton>
+
+
+                                            </p:column>
+
+                                            <p:column >
+
+                                                <p:inputText style=" width: 80%;" value="#{pagoAgronegocioBean.duiComprador}" > </p:inputText>  &nbsp; &nbsp;<p:commandButton  update=":padding" actionListener="#{pagoAgronegocioBean.mostrarAgronegociosDui}" icon="fa fa-search" title="Buscar" >
+                                                </p:commandButton>
+
+
+                                            </p:column>
+                                            <p:column    >
+
+
+
+                                            </p:column>
+
+                                        </p:row>
+
+                                    </p:panelGrid>
+
+                                </p:fieldset>
+                              
+
+                                
+
+
+                                
+                                <br></br>
+                                <p:outputPanel >
+
+
+                                    <p:dataTable  id="basicDT" var="agronegocios" widgetVar="dataPagos"  rows="10" value="#{pagoAgronegocioBean.listaAgronegocioPagos}"
+                                                  paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                  paginatorPosition="bottom" style="width: 100%;"
+                                                  emptyMessage="No se encontraron agronegocios"
+                                                  paginator="true"
+                                                 
+                                                  rowsPerPageTemplate="5,10,15"
+                                                  currentPageReportTemplate="Mostrando {startRecord}-{endRecord} de {totalRecords}"
+                                                  rowIndexVar="No"
+                                                  
+
+                                                  >
+                                        
+                                         <f:facet name="header">
+    <p:outputPanel>                                           
+    <p:inputText id="globalFilter" onkeyup="PF('dataPagos').filter()" style="width:150px" placeholder="Buscar"/>
+    </p:outputPanel>
+   </f:facet>
+
+                                          <p:column headerText="Nº" width="5%">
+                                            <h:outputText value="#{No+1}"/>
+                                        </p:column>
+
+                                       
+
+                                        <p:column headerText="Código" width="15%" filterBy="#{agronegocios.codigo}" sortBy="#{agronegocios.codigo}"  >
+                                            <h:outputText value="#{agronegocios.codigo}"/>
+                                        </p:column>
+                                        
+                                        <p:column headerText="DUI comprador" width="15%" filterBy="#{agronegocios.TComprador.duiComprador}" sortBy="#{agronegocios.TComprador.duiComprador}"  >
+                                            <h:outputText value="#{agronegocios.TComprador.duiComprador}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Fecha de registro" width="15%" filterBy="#{agronegocios.fecha}" sortBy="#{agronegocios.fecha}"  >
+                                            <h:outputText value="#{agronegocios.fecha}">
+
+                                                <f:convertDateTime pattern="dd/MM/yyyy" /> 
+
+                                            </h:outputText>
+
+
+                                        </p:column>
+
+
+
+
+                                        <p:column headerText="Total" width="15%" filterBy="#{agronegocios.total}" sortBy="#{agronegocios.total}"  >
+                                            <h:outputText value="$" /> 
+                                            <h:outputText value="#{agronegocios.total}"  >
+                                                <f:convertNumber   pattern=",#00.00" locale="en-US" />
+                                            </h:outputText>
+
+                                        </p:column>
+
+
+
+                                        <p:column headerText="Estado" width="15%" filterBy="#{agronegocios.estado}" sortBy="#{agronegocios.estado}"  >
+                                            <h:outputText value="#{agronegocios.estado}"/>
+                                        </p:column>
+                                        <p:column headerText="" width="5%">
+
+                                            <p:commandButton rendered="#{agronegocios.estado eq 'Pendiente'}" title="Registrar pago"  update=":padding"  style="#{pagoAgronegocioBean.btnModificar}" icon="fa fa-money">
+                                                <f:setPropertyActionListener  value="#{agronegocios.TComprador}" target="#{pagoAgronegocioBean.compradorSeleccionado}" />                                                
+                                                <f:setPropertyActionListener  value="#{agronegocios}" target="#{pagoAgronegocioBean.agronegocioSeleccionado}"/>
+                                                <f:actionListener binding="#{pagoAgronegocioBean.cargarAgronegocio()}"/> 
+                                            </p:commandButton> 
+
+                                            <p:commandButton rendered="#{agronegocios.estado eq 'Finalizado'}"  ajax="false" update=":padding" style="#{proyectoBean.btnModificar}"  icon="fa fa-file-text-o" title="Generar recibo">
+                                                <f:setPropertyActionListener  value="#{agronegocios}" target="#{pagoAgronegocioBean.agronegocioSeleccionado}"  />
+                                                <f:actionListener binding="#{pagoAgronegocioBean.generarRecibo()}"/> 
+                                            </p:commandButton>
+
+                                        </p:column>
+                                    </p:dataTable>
+
+
+                                </p:outputPanel>
+
+
+                            </h:form>
+
+                        </p:panel>
+                    </p:outputPanel>
+                </p:outputPanel>
+            </ui:define>
+            <ui:define name="aux">
+                <script>
+                    $(document).ready(function () {
+                        $("#agro").addClass("active");
+                    });
+                </script>
+            </ui:define>
+        </ui:composition>
+    </body>
+</html>
+

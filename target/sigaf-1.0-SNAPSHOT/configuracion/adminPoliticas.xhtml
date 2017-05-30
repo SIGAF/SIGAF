@@ -1,0 +1,834 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./../index.xhtml">
+
+            <ui:define name="content">
+                <style>
+                    .companyHeaderGrid.ui-panelgrid>*>tr,
+                    .companyHeaderGrid.ui-panelgrid .ui-panelgrid-cell {
+                        border: none;
+                    }
+                    .opciones .ui-selectonemenu-item { 
+                        height: 50px;
+                    }
+                    #fAgregarAreas\:pAgregar td{
+                        border: none !important;
+                    }
+                    #fAgregarAreas\:pAgregar tr{
+                        border: none !important;
+                    }
+
+                    #fModificarAreas\:pModificar td{
+                        border: none !important;
+                    }
+
+                    #fModificarAreas\:pModificar tr{
+                        border: none !important;
+                    }
+                    .columnas 
+
+
+                </style>
+                <style>
+                    .ui-tabs-left>.ui-tabs-nav {
+                        float: left;
+                        height: auto;
+                        background-image: none;
+                        padding-top: 1px;
+                    }
+
+                </style>
+                <p:outputPanel id="padding">
+                    <p:growl id="msg" />
+                    <p:outputPanel rendered="#{politicaBean.showData  }">
+                        <h:form id="fData" >
+                            <p:panel id="pgData" header="Administrar políticas de créditos"  style="width: 100%; margin: auto; margin-bottom: 20px;">
+                               
+                                <p:tabView orientation="left"   activeIndex="0"  styleClass="ui-tabs-nav" >
+                                     
+                                    <p:tab title="Empleados">
+                                        <h:panelGrid id="pgEmpleados"  style="width: 100%; margin: auto; height: 100%"> 
+                                            <p:fieldset>
+                                                <p:commandButton title="Nueva política" id="add"  actionListener="#{politicaBean.enableShowCreate}" update=":padding"    icon="fa fa-plus"  style="#{cuentaBean.btnNuevo}" >
+                                                    <f:actionListener binding="#{ politicaBean.asignar(politicaBean.empleado)}"/>
+                                                </p:commandButton>
+                                            </p:fieldset>
+                                            <p:dataTable   id="dtDatosPeriodos"
+                                                           var="pol" 
+                                                           value="#{politicaBean.getListaPoliticas(politicaBean.empleado)}" 
+                                                           style="width: 100%; font-size: small"
+                                                           rows="5"
+                                                           emptyMessage="No se encontraron políticas"
+                                                           paginator="true"
+                                                           paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                           rowsPerPageTemplate="5,10,15"
+                                                           paginatorPosition="bottom"
+                                                           currentPageReportTemplate="Mostrando {startRecord}-{endRecord} de {totalRecords}"
+                                                      
+                                                           rowIndexVar="No"
+                                                       >
+
+                                            <p:column headerText="Nº" width="5%" >
+                                                <h:outputText value="#{No+1}" />
+                                            </p:column> <p:column headerText="Tasa de interés(%)">
+                                                    <h:outputText value="#{pol.tasaInteres}" />
+                                                </p:column>
+
+                                                <p:column headerText="Tasa de interés por mora(%)">
+                                                    <h:outputText value="#{pol.tasaInteresMora}"/>
+                                                </p:column>
+
+                                                <p:column headerText="Capacidad de pago mínimo ">
+                                                    <h:outputText value="#{pol.capacidadPagoMinimo}"/>
+                                                </p:column>
+                                                <p:column headerText="Capacidad de endeudamiento">
+                                                    <h:outputText value="#{pol.capacidadEndeudamientoMinimo}" />
+                                                </p:column>
+                                                <p:column rendered="#{pol.estado}" headerText="Estado" width="1px">
+                                                    <center>
+
+                                                        <i class="fa fa-circle" style="color: greenyellow" title="activo"  ></i>
+                                                    </center>
+                                                </p:column>
+
+                                                <p:column rendered="#{!pol.estado}" headerText="Estado" >
+
+                                                    <center>
+
+                                                        <i class="fa fa-circle" style="color: red" title="inactivo"  ></i>
+                                                    </center>
+                                                </p:column>
+                                                <p:column>
+                                                    <p:commandButton update=":padding" oncomplete="PF('dlVer').show()" style="#{empleadoBean.btnVer}" icon="fa fa-eye" title="Ver">
+                                                        <f:setPropertyActionListener  value="#{pol}" target="#{politicaBean.politicaSeleccionada}"  />
+
+                                                    </p:commandButton>
+                                                </p:column>
+                                                <f:facet name="footer">
+                                                </f:facet>
+                                            </p:dataTable>
+                                        </h:panelGrid>
+                                       
+                                    </p:tab>
+                                    
+                                    <p:tab title="Produción(Cooperativas)">
+                                        <h:panelGrid id="pgProduccion"  style="width: 100%; margin: auto;"> 
+                                            <p:fieldset>
+                                                <p:commandButton title="Nueva política" id="produccion"  actionListener="#{politicaBean.enableShowCreate}" update=":padding"    icon="fa fa-plus"  style="#{cuentaBean.btnNuevo}" >
+                                                    <f:actionListener binding="#{ politicaBean.asignar(politicaBean.produccion)}"/>
+                                                </p:commandButton>
+                                            </p:fieldset>
+                                            <p:dataTable   id="dtProduccion"
+                                                           var="pol" 
+                                                           value="#{politicaBean.getListaPoliticas(politicaBean.produccion)}" 
+                                                           style="width: 100%; font-size: small"
+                                                           rows="5"
+                                                           emptyMessage="No se encontraron políticas"
+                                                           paginator="true"
+                                                           paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                           rowsPerPageTemplate="5,10,15"
+                                                           paginatorPosition="bottom"                            rowIndexVar="No"
+                                                       >
+
+                                            <p:column headerText="Nº" width="5%" >
+                                                <h:outputText value="#{No+1}" />
+                                            </p:column> <p:column headerText="Tasa de interés(%)">
+                                                    <h:outputText value="#{pol.tasaInteres}" />
+                                                </p:column>
+
+                                                <p:column headerText="Tasa de interés por mora(%)">
+                                                    <h:outputText value="#{pol.tasaInteresMora}"/>
+                                                </p:column>
+
+                                                <p:column headerText="Capacidad de pago mínimo ">
+                                                    <h:outputText value="#{pol.capacidadPagoMinimo}"/>
+                                                </p:column>
+                                                <p:column headerText="Capacidad de endeudamiento">
+                                                    <h:outputText value="#{pol.capacidadEndeudamientoMinimo}" />
+                                                </p:column>
+                                                <p:column rendered="#{pol.estado}" headerText="Estado">
+                                                    <center>
+
+                                                        <i class="fa fa-circle" style="color: greenyellow" title="activo"  ></i>
+                                                    </center>
+                                                </p:column>
+
+                                                <p:column rendered="#{!pol.estado}" headerText="Estado" >
+
+                                                    <center>
+
+                                                        <i class="fa fa-circle" style="color: red" title="inactivo"  ></i>
+                                                    </center>
+                                                </p:column>
+                                                <p:column>
+                                                    <p:commandButton update=":padding" oncomplete="PF('dlVer').show()" style="#{empleadoBean.btnVer}" icon="fa fa-eye" title="Ver">
+                                                        <f:setPropertyActionListener  value="#{pol}" target="#{politicaBean.politicaSeleccionada}"  />
+
+                                                    </p:commandButton>
+                                                </p:column>                                                <f:facet name="footer">
+                                                </f:facet>
+                                            </p:dataTable>
+                                        </h:panelGrid>
+                                    </p:tab>
+                                    <p:tab title="Inversion(Cooperativas)">
+                                        <h:panelGrid id="pgInversion"  style="width: 100%; margin: auto;"> 
+                                            <p:fieldset>
+                                                <p:commandButton title="Nueva política" id="inversion"  actionListener="#{politicaBean.enableShowCreate}" update=":padding"    icon="fa fa-plus"  style="#{cuentaBean.btnNuevo}" >
+                                                    <f:actionListener binding="#{ politicaBean.asignar(politicaBean.inversion)}"/>
+                                                </p:commandButton>
+                                            </p:fieldset>
+                                            <p:dataTable   id="dtInversion"
+                                                           var="pol" 
+                                                           value="#{politicaBean.getListaPoliticas(politicaBean.inversion)}" 
+                                                           style="width: 100%; font-size: small"
+                                                           rows="5"
+                                                           emptyMessage="No se encontraron políticas"
+                                                           paginator="true"
+                                                           paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                           rowsPerPageTemplate="5,10,15"
+                                                           paginatorPosition="bottom"                            rowIndexVar="No"
+                                                       >
+
+                                            <p:column headerText="Nº" width="5%" >
+                                                <h:outputText value="#{No+1}" />
+                                            </p:column>  <p:column headerText="Tasa de interés(%)">
+                                                    <h:outputText value="#{pol.tasaInteres}" />
+                                                </p:column>
+
+                                                <p:column headerText="Tasa de interés por mora(%)">
+                                                    <h:outputText value="#{pol.tasaInteresMora}"/>
+                                                </p:column>
+
+                                                <p:column headerText="Capacidad de pago mínimo ">
+                                                    <h:outputText value="#{pol.capacidadPagoMinimo}"/>
+                                                </p:column>
+                                                <p:column headerText="Capacidad de endeudamiento">
+                                                    <h:outputText value="#{pol.capacidadEndeudamientoMinimo}" />
+                                                </p:column>
+                                                <p:column rendered="#{pol.estado}" headerText="Estado">
+                                                    <center>
+
+                                                        <i class="fa fa-circle" style="color: greenyellow" title="activo"  ></i>
+                                                    </center>
+                                                </p:column>
+
+                                                <p:column rendered="#{!pol.estado}" headerText="Estado" >
+
+                                                    <center>
+
+                                                        <i class="fa fa-circle" style="color: red" title="inactivo"  ></i>
+                                                    </center>
+                                                </p:column>
+                                                <p:column>
+                                                    <p:commandButton update=":padding" oncomplete="PF('dlVer').show()" style="#{empleadoBean.btnVer}" icon="fa fa-eye" title="Ver">
+                                                        <f:setPropertyActionListener  value="#{pol}" target="#{politicaBean.politicaSeleccionada}"  />
+
+                                                    </p:commandButton>
+                                                </p:column>
+                                                <f:facet name="footer">
+                                                </f:facet>
+                                            </p:dataTable>
+                                        </h:panelGrid>
+                                    </p:tab>
+                                    <p:tab title="Lisiados">
+                                        <h:panelGrid id="pgLisiados"  style="width: 100%; margin: auto;"> 
+                                            <p:fieldset>
+                                                <p:commandButton title="Nueva política" id="lisiados"  actionListener="#{politicaBean.enableShowCreate}" update=":padding"    icon="fa fa-plus"  style="#{cuentaBean.btnNuevo}" >
+                                                    <f:actionListener binding="#{ politicaBean.asignar(politicaBean.lisiados)}"/>
+                                                </p:commandButton>
+                                            </p:fieldset>
+                                            <p:dataTable   id="dtLisiados"
+                                                           var="pol" 
+                                                           value="#{politicaBean.getListaPoliticas(politicaBean.lisiados)}" 
+                                                           style="width: 100 ; font-size: small"
+                                                           rows="5"
+                                                           emptyMessage="No se encontraron políticas"
+                                                           paginator="true"
+                                                           paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                           rowsPerPageTemplate="5,10,15"
+                                                           paginatorPosition="bottom"                            rowIndexVar="No"
+                                                       >
+
+                                            <p:column headerText="Nº" width="5%" >
+                                                <h:outputText value="#{No+1}" />
+                                            </p:column>  <p:column headerText="Tasa de interés(%)">
+                                                    <h:outputText value="#{pol.tasaInteres}" />
+                                                </p:column>
+
+                                                <p:column headerText="Tasa de interés por mora(%)">
+                                                    <h:outputText value="#{pol.tasaInteresMora}"/>
+                                                </p:column>
+
+                                                <p:column headerText="Capacidad de pago mínimo ">
+                                                    <h:outputText value="#{pol.capacidadPagoMinimo}"/>
+                                                </p:column>
+                                                <p:column headerText="Capacidad de endeudamiento">
+                                                    <h:outputText value="#{pol.capacidadEndeudamientoMinimo}" />
+                                                </p:column>
+                                                <p:column rendered="#{pol.estado}" headerText="Estado">
+                                                    <center>
+
+                                                        <i class="fa fa-circle" style="color: greenyellow" title="activo"  ></i>
+                                                    </center>
+                                                </p:column>
+
+                                                <p:column rendered="#{!pol.estado}" headerText="Estado" >
+
+                                                    <center>
+
+                                                        <i class="fa fa-circle" style="color: red" title="inactivo"  ></i>
+                                                    </center>
+                                                </p:column>
+                                                <p:column>
+                                                    <p:commandButton update=":padding" oncomplete="PF('dlVer').show()" style="#{empleadoBean.btnVer}" icon="fa fa-eye" title="Ver">
+                                                        <f:setPropertyActionListener  value="#{pol}" target="#{politicaBean.politicaSeleccionada}"  />
+
+                                                    </p:commandButton>
+                                                </p:column>                                                <f:facet name="footer">
+                                                </f:facet>
+                                            </p:dataTable>
+                                        </h:panelGrid>
+                                    </p:tab>
+                                   
+                                    <p:tab title="Comercio">
+                                        <h:panelGrid id="pgComercio"  style="width: 100%; margin: auto; height: auto;"> 
+                                            <p:fieldset>
+                                                <p:commandButton title="Nueva política" id="comercio"  actionListener="#{politicaBean.enableShowCreate}" update=":padding"    icon="fa fa-plus"  style="#{cuentaBean.btnNuevo}" >
+                                                    <f:actionListener binding="#{ politicaBean.asignar(politicaBean.comercio)}"/>
+                                                </p:commandButton>
+                                            </p:fieldset>
+                                            <p:dataTable   id="dtComercio"
+                                                           var="pol" 
+                                                           value="#{politicaBean.getListaPoliticas(politicaBean.comercio)}" 
+                                                           style="width: 100% ; font-size: small"
+                                                           rows="5"
+                                                           emptyMessage="No se encontraron políticas"
+                                                           paginator="true"
+                                                           paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                           rowsPerPageTemplate="5,10,15"
+                                                           paginatorPosition="bottom"                            rowIndexVar="No"
+                                                       >
+
+                                            <p:column headerText="Nº" width="5%" >
+                                                <h:outputText value="#{No+1}" />
+                                            </p:column>   <p:column headerText="Tasa de interés(%)">
+                                                    <h:outputText value="#{pol.tasaInteres}" />
+                                                </p:column>
+
+                                                <p:column headerText="Tasa de interés por mora(%)">
+                                                    <h:outputText value="#{pol.tasaInteresMora}"/>
+                                                </p:column>
+
+                                                <p:column headerText="Capacidad de pago mínimo ">
+                                                    <h:outputText value="#{pol.capacidadPagoMinimo}"/>
+                                                </p:column>
+                                                <p:column headerText="Capacidad de endeudamiento">
+                                                    <h:outputText value="#{pol.capacidadEndeudamientoMinimo}" />
+                                                </p:column>
+                                                <p:column rendered="#{pol.estado}" headerText="Estado">
+                                                    <center>
+
+                                                        <i class="fa fa-circle" style="color: greenyellow" title="activo"  ></i>
+                                                    </center>
+                                                </p:column>
+
+                                                <p:column rendered="#{!pol.estado}" headerText="Estado" >
+
+                                                    <center>
+
+                                                        <i class="fa fa-circle" style="color: red" title="inactivo"  ></i>
+                                                    </center>
+                                                </p:column>
+                                                <p:column>
+                                                    <p:commandButton update=":padding" oncomplete="PF('dlVer').show()" style="#{empleadoBean.btnVer}" icon="fa fa-eye" title="Ver">
+                                                        <f:setPropertyActionListener  value="#{pol}" target="#{politicaBean.politicaSeleccionada}"  />
+
+                                                    </p:commandButton>
+                                                </p:column>
+                                                <f:facet name="footer">
+                                                </f:facet>
+                                            </p:dataTable>
+                                        </h:panelGrid>
+                                    </p:tab>
+                                    <p:tab title="Capital de trabajo agropecuario">
+                                        <h:panelGrid id="pgCapital"  style="width: 100%; margin: auto;"> 
+                                            <p:fieldset>
+                                                <p:commandButton title="Nueva política" id="capital"  actionListener="#{politicaBean.enableShowCreate}" update=":padding"    icon="fa fa-plus"  style="#{cuentaBean.btnNuevo}" >
+                                                    <f:actionListener binding="#{ politicaBean.asignar(politicaBean.capital)}"/>
+                                                </p:commandButton>
+                                            </p:fieldset>
+                                            <p:dataTable   id="dtCapital"
+                                                           var="pol" 
+                                                           value="#{politicaBean.getListaPoliticas(politicaBean.capital)}" 
+                                                           style="width: 100% ; font-size: small"
+                                                           rows="5"
+                                                           emptyMessage="No se encontraron políticas"
+                                                           paginator="true"
+                                                           paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                           rowsPerPageTemplate="5,10,15"
+                                                           paginatorPosition="bottom"                            rowIndexVar="No"
+                                                       >
+
+                                            <p:column headerText="Nº" width="5%" >
+                                                <h:outputText value="#{No+1}" />
+                                            </p:column> <p:column headerText="Tasa de interés(%)">
+                                                    <h:outputText value="#{pol.tasaInteres}" />
+                                                </p:column>
+
+                                                <p:column headerText="Tasa de interés por mora(%)">
+                                                    <h:outputText value="#{pol.tasaInteresMora}"/>
+                                                </p:column>
+
+                                                <p:column headerText="Capacidad de pago mínimo ">
+                                                    <h:outputText value="#{pol.capacidadPagoMinimo}"/>
+                                                </p:column>
+                                                <p:column headerText="Capacidad de endeudamiento">
+                                                    <h:outputText value="#{pol.capacidadEndeudamientoMinimo}" />
+                                                </p:column>
+                                                <p:column rendered="#{pol.estado}" headerText="Estado">
+                                                    <center>
+
+                                                        <i class="fa fa-circle" style="color: greenyellow" title="activo"  ></i>
+                                                    </center>
+                                                </p:column>
+
+                                                <p:column rendered="#{!pol.estado}" headerText="Estado" >
+
+                                                    <center>
+
+                                                        <i class="fa fa-circle" style="color: red" title="inactivo"  ></i>
+                                                    </center>
+                                                </p:column>
+                                                <p:column>
+                                                    <p:commandButton update=":padding" oncomplete="PF('dlVer').show()" style="#{empleadoBean.btnVer}" icon="fa fa-eye" title="Ver">
+                                                        <f:setPropertyActionListener  value="#{pol}" target="#{politicaBean.politicaSeleccionada}"  />
+
+                                                    </p:commandButton>
+                                                </p:column>                                                <f:facet name="footer">
+                                                </f:facet>
+                                            </p:dataTable>
+                                        </h:panelGrid>
+                                    </p:tab>
+                                    <p:tab title="Inversion agropecuaria">
+                                        <h:panelGrid id="pgInversionAgro"  style="width: 100%; margin: auto;"> 
+                                            <p:fieldset>
+                                                <p:commandButton title="Nueva política" id="inversionAgro"  actionListener="#{politicaBean.enableShowCreate}" update=":padding"    icon="fa fa-plus"  style="#{cuentaBean.btnNuevo}" >
+                                                    <f:actionListener binding="#{ politicaBean.asignar(politicaBean.inversionAgro)}"/>
+                                                </p:commandButton>
+                                            </p:fieldset>
+                                            <p:dataTable   id="dtInvesionAgro"
+                                                           var="pol" 
+                                                           value="#{politicaBean.getListaPoliticas(politicaBean.inversionAgro)}" 
+                                                           style="width: 100% ; font-size: small"
+                                                           rows="5"
+                                                           emptyMessage="No se encontraron políticas"
+                                                           paginator="true"
+                                                           paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                           rowsPerPageTemplate="5,10,15"
+                                                           paginatorPosition="bottom"
+                                                                              rowIndexVar="No"
+                                                       >
+
+                                            <p:column headerText="Nº" width="5%" >
+                                                <h:outputText value="#{No+1}" />
+                                            </p:column>
+                                                           
+                                           
+                                                <p:column headerText="Tasa de interés(%)">
+                                                    <h:outputText value="#{pol.tasaInteres}" />
+                                                </p:column>
+
+                                                <p:column headerText="Tasa de interés por mora(%)">
+                                                    <h:outputText value="#{pol.tasaInteresMora}"/>
+                                                </p:column>
+
+                                                <p:column headerText="Capacidad de pago mínimo ">
+                                                    <h:outputText value="#{pol.capacidadPagoMinimo}"/>
+                                                </p:column>
+                                                <p:column headerText="Capacidad de endeudamiento">
+                                                    <h:outputText value="#{pol.capacidadEndeudamientoMinimo}" />
+                                                </p:column>
+                                                <p:column rendered="#{pol.estado}" headerText="Estado">
+                                                    <center>
+
+                                                        <i class="fa fa-circle" style="color: greenyellow" title="activo"  ></i>
+                                                    </center>
+                                                </p:column>
+
+                                                <p:column rendered="#{!pol.estado}" headerText="Estado" >
+
+                                                    <center>
+
+                                                        <i class="fa fa-circle" style="color: red" title="inactivo"  ></i>
+                                                    </center>
+                                                </p:column>
+                                                <p:column>
+                                                    <p:commandButton update=":padding" oncomplete="PF('dlVer').show()" style="#{empleadoBean.btnVer}" icon="fa fa-eye" title="Ver">
+                                                        <f:setPropertyActionListener  value="#{pol}" target="#{politicaBean.politicaSeleccionada}"  />
+
+                                                    </p:commandButton>
+                                                </p:column>
+                                                <f:facet name="footer">
+                                                </f:facet>
+                                            </p:dataTable>
+                                        </h:panelGrid>
+                                    </p:tab>
+                                    <p:tab title="Producción agropecuaria">
+                                        <h:panelGrid id="pgProdiccionAgro"  style="width: 100%; margin: auto;"> 
+                                            <p:fieldset>
+                                                <p:commandButton title="Nueva política" id="produccionAgro"  actionListener="#{politicaBean.enableShowCreate}" update=":padding"    icon="fa fa-plus"  style="#{cuentaBean.btnNuevo}" >
+                                                    <f:actionListener binding="#{ politicaBean.asignar(politicaBean.produccionAgro)}"/>
+                                                </p:commandButton>
+                                            </p:fieldset>
+                                            <p:dataTable   id="dtProduccionAgro"
+                                                           var="pol" 
+                                                           value="#{politicaBean.getListaPoliticas(politicaBean.produccionAgro)}" 
+                                                           style="width: 100%; font-size: small"
+                                                           rows="5"
+                                                           emptyMessage="No se encontraron políticas"
+                                                           paginator="true"
+                                                           paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                           rowsPerPageTemplate="5,10,15"
+                                                           paginatorPosition="bottom"                             rowIndexVar="No"
+                                                       >
+
+                                            <p:column headerText="Nº" width="5%" >
+                                                <h:outputText value="#{No+1}" />
+                                            </p:column> <p:column headerText="Tasa de interés(%)">
+                                                    <h:outputText value="#{pol.tasaInteres}" />
+                                                </p:column>
+
+                                                <p:column headerText="Tasa de interés por mora(%)">
+                                                    <h:outputText value="#{pol.tasaInteresMora}"/>
+                                                </p:column>
+
+                                                <p:column headerText="Capacidad de pago mínimo ">
+                                                    <h:outputText value="#{pol.capacidadPagoMinimo}"/>
+                                                </p:column>
+                                                <p:column headerText="Capacidad de endeudamiento">
+                                                    <h:outputText value="#{pol.capacidadEndeudamientoMinimo}" />
+                                                </p:column>
+                                                <p:column rendered="#{pol.estado}" headerText="Estado">
+                                                    <center>
+
+                                                        <i class="fa fa-circle" style="color: greenyellow" title="activo"  ></i>
+                                                    </center>
+                                                </p:column>
+
+                                                <p:column rendered="#{!pol.estado}" headerText="Estado" >
+
+                                                    <center>
+
+                                                        <i class="fa fa-circle" style="color: red" title="inactivo"  ></i>
+                                                    </center>
+                                                </p:column>
+                                                <p:column>
+                                                    <p:commandButton update=":padding" oncomplete="PF('dlVer').show()" style="#{empleadoBean.btnVer}" icon="fa fa-eye" title="Ver">
+                                                        <f:setPropertyActionListener  value="#{pol}" target="#{politicaBean.politicaSeleccionada}"  />
+
+                                                    </p:commandButton>
+                                                </p:column>
+                                                <f:facet name="footer">
+                                                </f:facet>
+                                            </p:dataTable>
+                                        </h:panelGrid>
+                                    </p:tab>
+                                </p:tabView>
+                            </p:panel>
+                            <p:dialog header="Datos de política" widgetVar="dlVer" modal="true"   visible="false"  resizable="true" responsive="true" styleClass="ui-panelgrid-blank" appendTo="@(body)">
+                                <p:outputPanel id="dlVerArea" style="text-align:center; width: 100%" styleClass="ui-widget-content">
+                                    <p:panelGrid id="pgVer" >
+                                        <p:row>
+                                            <p:column>
+                                                <h:outputText value="Tipo de crédito:"  />
+                                            </p:column>
+                                            <p:column  colspan="3">
+                                                <h:outputText value="#{politicaBean.politicaSeleccionada.TTipoCredito.nombre}" />
+                                            </p:column>
+                                        </p:row>
+                                        <p:row>
+                                            <p:column>
+                                                <h:outputText value="Descripción:"  />
+                                            </p:column>
+                                            <p:column colspan="3">
+                                                <h:outputText value="#{politicaBean.politicaSeleccionada.TTipoCredito.descripcion}" />
+                                            </p:column>
+                                        </p:row>
+                                        <p:row>
+
+                                            <p:column>
+                                                <h:outputText value="Tasa de interés:" />
+                                            </p:column>
+                                            <p:column>
+                                                <h:outputText value="#{politicaBean.politicaSeleccionada.tasaInteres}%" >
+                                                    <f:convertNumber pattern="#0.00"/>
+                                                </h:outputText>
+                                            </p:column>
+                                            <p:column>
+                                                <h:outputText value="Tasa de interés por mora:" />
+
+                                            </p:column>
+                                            <p:column>
+                                                <h:outputText value="#{politicaBean.politicaSeleccionada.tasaInteresMora}%" />
+                                            </p:column>
+                                        </p:row>
+                                        <p:row>
+                                            <p:column>
+                                                <h:outputText value="Edad mínima:" />
+                                            </p:column>
+                                            <p:column>
+                                                <h:outputText value="#{politicaBean.politicaSeleccionada.edadMinima} años" />
+                                            </p:column>
+                                            <p:column>
+                                                <h:outputText value="Edad máxima:" />
+                                            </p:column>
+                                            <p:column>
+                                                <h:outputText value="#{politicaBean.politicaSeleccionada.edadMaxima} años" />
+                                            </p:column>
+                                        </p:row>
+                                        <p:row>
+                                            <p:column>
+                                                <h:outputText value="Monto mínimo:" />
+                                            </p:column>
+                                            <p:column>
+                                                <h:outputText value="$#{politicaBean.politicaSeleccionada.montoMinimo}" >
+                                                    <f:convertNumber pattern="#0.00"/>
+                                                </h:outputText>
+                                            </p:column>
+                                            <p:column>
+                                                <h:outputText value="Monto máximo:" />
+                                            </p:column>
+                                            <p:column>
+                                                <h:outputText value="$#{politicaBean.politicaSeleccionada.montoMaximo}" />
+                                            </p:column>
+                                        </p:row>
+                                        <p:row>
+                                            <p:column>
+                                                <h:outputText value="Comisión:" />
+                                            </p:column>
+                                            <p:column>
+                                                <h:outputText value="#{politicaBean.politicaSeleccionada.comision}%" />
+                                            </p:column>
+                                            <p:column>
+                                                <h:outputText value="Seguro de deuda:" />
+                                            </p:column>
+                                            <p:column>
+                                                <h:outputText value="#{politicaBean.politicaSeleccionada.seguroDeuda}%" />
+                                            </p:column>
+                                        </p:row>
+                                        <p:row>
+                                            <p:column>
+                                                <h:outputText value="Capacidad pago mínimo:" />
+                                            </p:column>
+                                            <p:column>
+                                                <h:outputText value="#{politicaBean.politicaSeleccionada.capacidadPagoMinimo}" />
+                                            </p:column>
+                                            <p:column>
+                                                <h:outputText value="Capacidad de endeudamiento mímino:" />
+                                            </p:column>
+                                            <p:column>
+                                                <h:outputText value="#{politicaBean.politicaSeleccionada.capacidadEndeudamientoMinimo}" />
+                                            </p:column>
+                                        </p:row>
+                                        <p:row>
+                                            <p:column>
+                                                <h:outputText value="Estado:" />
+                                            </p:column>
+                                            <p:column colspan="3">
+                                                <h:outputText value="#{politicaBean.politicaSeleccionada.estado? 'Activo' : 'Inactivo'}" />
+                                            </p:column>
+                                        </p:row>
+
+
+                                    </p:panelGrid>
+                                    <hr></hr>
+                                </p:outputPanel>
+                            </p:dialog>
+
+                        </h:form>
+
+
+                    </p:outputPanel>
+
+
+
+                    <p:outputPanel rendered="#{politicaBean.showCreate}">
+                        <h:form id="fAgregarPoliticas" >
+                            <p:panel id="pAgregar" header="Agregar políticas de crédito"  style="width: 45%; margin: auto; margin-bottom: 20px">
+
+                                <p:fieldset>
+                                <p:panelGrid id="pgPoliticas"  style="width: 100%; margin: auto;" styleClass="companyHeaderGrid">
+
+                                    <p:row>
+                                        <p:column>
+
+                                            <h:outputText value="Tasa de interés(%):"/>
+                                        </p:column>
+
+                                        <p:column>
+
+                                            <h:outputText value="Tasa de interés por mora(%):"/>
+                                        </p:column>
+                                    </p:row>
+                                    <p:row>
+                                        <p:column>
+                                            <p:inputNumber value="#{politicaBean.politicas.tasaInteres}" style="width: 100%" minValue="0"/> 
+                                            <h:outputText value="#{politicaBean.msgTasaInteres}" style=" color:  red" />
+                                        </p:column>
+
+                                        <p:column>
+                                            <p:inputNumber value="#{politicaBean.politicas.tasaInteresMora}" style="width: 100%" minValue="0"/>
+                                            <h:outputText value="#{politicaBean.msgTasaInteresMora}" style=" color:  red" />
+                                        </p:column>
+
+                                    </p:row>
+                                    <p:row>
+                                        <p:column style="width: 100%">
+
+                                            <h:outputText value="Edad mínima:"/>
+                                        </p:column >
+                                        <p:column style="width: 100%">
+
+                                            <h:outputText value="Edad máxima:"/>
+                                        </p:column>
+                                    </p:row>
+                                    <p:row>
+                                        <p:column>
+                                            <p:inputNumber value="#{politicaBean.politicas.edadMinima}" style="width: 100%" decimalPlaces="0"  minValue="0"/>
+
+                                            <h:outputText value="#{politicaBean.msgEdadMinima}" style=" color:  red" />
+                                            <h:outputText value="#{politicaBean.msgMayor}" style=" color:  red" />
+                                        </p:column>
+                                        <p:column>
+                                            <p:inputNumber value="#{politicaBean.politicas.edadMaxima}" style="width: 100%" decimalPlaces="0" minValue="0"  />
+                                            <h:outputText value="#{politicaBean.msgEdadMaxima}" style=" color:  red" />
+                                        </p:column>
+                                    </p:row>
+                                    <p:row>
+                                        <p:column style="width: 100%">
+
+                                            <h:outputText value="Monto mínimo($):"/>
+                                        </p:column>
+                                        <p:column style="width: 100%">
+
+                                            <h:outputText value="Monto máximo($):"/>
+                                        </p:column>
+                                    </p:row>
+                                    <p:row>
+                                        <p:column>
+                                            <p:inputNumber value="#{politicaBean.politicas.montoMinimo}" style="width: 100%" minValue="0"/>
+                                            <h:outputText value="#{politicaBean.msgMontoMinimo}" style=" color:  red" />
+                                            <h:outputText value="#{politicaBean.msgMenor}" style=" color:  red" />
+                                        </p:column>
+                                        <p:column>
+                                            <p:inputNumber value="#{politicaBean.politicas.montoMaximo}" style="width: 100%" minValue="0" />
+                                            <h:outputText value="#{politicaBean.msgMontoMaximo}" style=" color:  red" />
+                                        </p:column>
+                                    </p:row>
+                                    <p:row>
+                                        <p:column>
+
+                                            <h:outputText value="Comisión(%):" style="width: 100%"/>
+                                        </p:column>
+                                        <p:column>
+
+                                            <h:outputText value="Seguro de deuda(%):" style="width: 100%"/>
+                                        </p:column>
+                                    </p:row>
+                                    <p:row>
+                                        <p:column>
+                                            <p:inputNumber value="#{politicaBean.politicas.comision}" style="width: 100%" minValue="0"/>
+                                            <h:outputText value="#{politicaBean.msgComision}" style=" color:  red" />
+                                        </p:column>
+                                        <p:column>
+                                            <p:inputNumber value="#{politicaBean.politicas.seguroDeuda}" style="width: 100%" minValue="0" />
+                                            <h:outputText value="#{politicaBean.msgSeguro}" style=" color:  red" />
+                                        </p:column>
+                                    </p:row>
+                                    <p:row>
+                                        <p:column style="width: 100%">
+
+                                            <h:outputText value="Capacidad pago mínimo:"/>
+                                        </p:column>
+                                        <p:column style="width: 100%">
+
+                                            <h:outputText value="Capacidad de endeudamiento mímino:"/>
+                                        </p:column>
+                                    </p:row>
+                                    <p:row>
+                                        <p:column style="width: 100%">
+                                            <p:inputNumber value="#{politicaBean.politicas.capacidadPagoMinimo}" style="width: 100%" minValue="0"/>
+                                            <h:outputText value="#{politicaBean.msgPagoMinimo}" style=" color:  red" />
+                                        </p:column>
+                                        <p:column style="width: 100%">
+                                            <p:inputNumber value="#{politicaBean.politicas.capacidadEndeudamientoMinimo}" style="width: 100%" minValue="0"/>
+                                            <h:outputText value="#{politicaBean.msgEndeudamientoMinimo}" style=" color:  red" />
+                                        </p:column>
+                                    </p:row>
+
+                                </p:panelGrid>
+                                    </p:fieldset>
+
+                                <br></br>
+                                <center>
+                                    <div class="buttons"> 
+                                        <p:commandButton  value="Guardar" id="btnGuardar" icon="fa fa-check" style="#{areaBean.btnCrear}" actionListener="#{politicaBean.validarFormulario}" update=":padding" > 
+
+                                        </p:commandButton>
+                                        <p:commandButton value="Limpiar" id="btnLimpiar" style="#{areaBean.btnLimpiar}" actionListener="#{politicaBean.limpiar(0)}"  icon="fa fa-fw fa-minus"  update=":padding" >
+                                        </p:commandButton>
+                                        <p:commandButton value="Cancelar" id="btnCancelar"  style="#{areaBean.btnCancelar}" icon="fa fa-fw fa-close" actionListener="#{politicaBean.limpiar(1)}" update=":padding"  />
+                                    </div>
+                                </center>
+
+                            </p:panel>  
+                            <p:dialog header="Confirmar" widgetVar="pgGuardar" modal="true"  visible="#{politicaBean.estadoFormulario}" resizable="true" responsive="true" styleClass="ui-panelgrid-blank" appendTo="@(body)">
+                                <p:outputPanel style="text-align:center;">
+                                    <p:panelGrid>
+                                        <h:outputText value="¿Desea guardar esta politica?"/>
+                                    </p:panelGrid>
+                                    <hr></hr>
+                                    <center>
+                                        <p:commandButton style="#{areaBean.btnNuevo}" value="Si" actionListener="#{politicaBean.crear}"   oncomplete="PF('pgGuardar').hide()"  title="Cerrar" update=":padding">
+                                        </p:commandButton>
+                                        <p:commandButton oncomplete="PF('pgGuardar').hide()" style="#{areaBean.btnCancelar}"  value="No"> 
+                                            <f:setPropertyActionListener value="#{false}" target="#{politicaBean.estadoFormulario}"/>
+                                        </p:commandButton>
+                                    </center>
+                                </p:outputPanel>
+                            </p:dialog>
+
+
+
+
+
+                        </h:form>
+                    </p:outputPanel>
+
+                    <!-- actualizar-->
+
+                </p:outputPanel>
+
+            </ui:define>
+
+            <ui:define name="aux">
+
+                <script>
+                    $(document).ready(function () {
+                        $("#conf").addClass("active");
+                    });
+                </script>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

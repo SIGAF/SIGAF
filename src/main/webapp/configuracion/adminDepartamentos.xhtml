@@ -1,0 +1,305 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <body>
+
+        <ui:composition template="./../index.xhtml">
+
+            <ui:define name="content">
+                <h:outputScript name="./js/bootstrap.min.js" />
+                <style>
+                    .companyHeaderGrid.ui-panelgrid>*>tr,
+                    .companyHeaderGrid.ui-panelgrid .ui-panelgrid-cell {
+                        border: none;
+                    }
+                    #fDepartamentos\:main-panel td{
+                        border: none !important;
+                    }
+
+                    #fDepartamentos\:main-panel tr{
+                        border: none !important;
+                    }
+                    #fDepartamentosModifcar\:panelModificar td{
+                        border: none !important;
+                    }
+
+                    #fDepartamentosModifcar\:panelModificar tr{
+                        border: none !important;
+                    }
+                </style>
+                <p:outputPanel id="padding">
+                    <p:growl id="msg"/>
+                    <p:outputPanel rendered="#{departamentoBean.showData}">
+
+                        <p:panel id="custom" header="Administrar departamentos" style="margin:auto; margin-bottom:20px; width: 100%">
+                            <h:panelGrid columns="2" cellpadding="10">
+
+                                <h:panelGrid columns="1" cellpadding="10">
+
+                                    <h:form id="fData">
+
+                                        <p:fieldset>
+                                            <p:commandButton title="Nuevo departamento" id="add"  actionListener="#{departamentoBean.enableShowCreate}" style="#{departamentoBean.btnNuevo}" update=":padding"    icon="fa fa-plus" />
+
+                                        </p:fieldset>
+
+                                        <p:dataTable   id="departamentosData"
+                                                       var="departamentos" 
+                                                       value="#{departamentoBean.listaDepartamento}" 
+                                                       paginator="true"
+                                                       widgetVar="companyTable"
+                                                       rows="10"
+                                                       paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                       rowsPerPageTemplate="5,10,15"
+                                                       paginatorPosition="bottom"
+                                                       currentPageReportTemplate="Mostrando {startRecord}-{endRecord} de {totalRecords}"
+                                                       emptyMessage="No se encontraron departamentos" rowIndexVar="No" >
+
+
+                                            <f:facet name="header">
+                                                <p:outputPanel>                                           
+                                                    <p:inputText id="globalFilter" onkeyup="PF('companyTable').filter()" style="width:150px" placeholder="Buscar"/>
+                                                </p:outputPanel>
+                                            </f:facet>
+
+
+                                            <p:column headerText="Nº" style=" width: 5%">  
+                                                <h:outputText value="#{No+1}"/>
+                                            </p:column> 
+
+                                            <p:column headerText="Nombre"  filterBy="#{empleados.TEmpleado.nombreEmpleado}" filterMatchMode="contains" width="75%" filterStyle="width: 100%" >  
+                                                <h:outputText value="#{departamentos.nombreDepartamento}" />
+                                            </p:column>
+                                            <p:column width="9%">
+
+
+
+                                                <p:splitButton  update=":padding"  oncomplete="PF('dlVer').show()" icon="fa fa-eye"  style="#{departamentos.estadoDepartamento eq true? cuentaBean.btnDarDeAlta :  cuentaBean.btnDarDeBaja}" >
+                                                    <f:setPropertyActionListener  value="#{departamentos}" target="#{departamentoBean.departamentoSeleccionado}"  />
+
+                                                    <p:menuitem  actionListener="#{departamentoBean.enableShowUpdate()}" update=":padding" icon=" fa fa-pencil-square-o" value="Modificar">
+
+                                                        <f:setPropertyActionListener  value="#{departamentos}" target="#{departamentoBean.departamentoSeleccionado}"  />
+                                                        <f:setPropertyActionListener  value="#{departamentos.nombreDepartamento}" target="#{departamentoBean.nombreAux}"  />
+
+                                                    </p:menuitem>
+
+                                                    <p:menuitem rendered="#{departamentos.estadoDepartamento}" update=":padding"  oncomplete="PF('dlBaja').show()" icon="fa fa-arrow-down" value="Dar de baja"    >
+                                                        <f:setPropertyActionListener value="#{departamentos}" target="#{departamentoBean.departamentoSeleccionado}" />
+                                                    </p:menuitem>                                              
+                                                    <p:menuitem rendered="#{!departamentos.estadoDepartamento}" update=":padding"  oncomplete="PF('dlAlta').show()" icon="fa fa-arrow-up" value="Dar de alta"    >
+                                                        <f:setPropertyActionListener value="#{departamentos}" target="#{departamentoBean.departamentoSeleccionado}" />
+                                                    </p:menuitem>                                              
+                                                </p:splitButton> 
+
+
+                                            </p:column>
+                                            <f:facet name="footer">
+
+                                            </f:facet>
+                                        </p:dataTable>
+                                    </h:form>
+                                </h:panelGrid>
+                            </h:panelGrid>
+                        </p:panel>
+                        <p:dialog header="Datos del departamento" widgetVar="dlVer" modal="true" width="50%"   visible="false"  resizable="true" responsive="true" styleClass="ui-panelgrid-blank" appendTo="@(body)">
+                            <h:form target="_blank">
+                                <p:outputPanel id="dlVerArea"  >
+                                    <p:panelGrid id="pgVer" columns="4" style=" width: 100%" >
+                                        <h:outputText value="Nombre:" />
+                                        <h:outputText value="#{departamentoBean.departamentoSeleccionado.nombreDepartamento}" />
+                                        <h:outputText value="Estado:" />
+                                        <h:outputText value="#{departamentoBean.departamentoSeleccionado.estadoDepartamento eq true? 'Activo':'Inactivo'}" />
+                                    </p:panelGrid>
+                                    <br></br>
+                                    <center>
+                                        <p:splitButton  update=":padding" value="Ver PDF"  ajax="false" icon="fa fa-eye"  >
+                                            <f:actionListener binding="#{departamentoBean.verReporteDepartamento()}"/> 
+                                            <p:menuitem  ajax="false" update=":padding"  icon="fa fa-download" value="Descargar PDF">
+                                                <f:actionListener binding="#{departamentoBean.verReporteDepartamentoPDF()}"/> 
+                                            </p:menuitem>
+                                        </p:splitButton>
+                                    </center>
+                                </p:outputPanel>
+                            </h:form>
+                        </p:dialog>
+                        <p:dialog header="Confirmar" widgetVar="dlBaja" modal="true"   visible="false"  resizable="true" responsive="true" styleClass="ui-panelgrid-blank" appendTo="@(body)">
+                            <h:form target="_blank">
+                                <p:outputPanel id="dlDarDeBaja" style="text-align:center; width: 100%">
+                                    <p:panelGrid id="panelBaja" >
+
+                                        <h:outputText value="¿Desea dar de baja este departamento?" />                                        
+                                    </p:panelGrid>
+                                    <br></br>
+                                    <hr></hr>
+                                    <p:commandButton id="btnGuardarBaja" actionListener="#{departamentoBean.darDeBaja}" update=":padding" style="#{areaBean.btnNuevo}"  value="Si"> 
+                                    </p:commandButton>
+                                    <p:commandButton id="btnCancelBaja" actionListener="#{departamentoBean.enableShowData}" update=":padding"  style="#{areaBean.btnCancelar}"  value="No" > 
+                                    </p:commandButton>
+
+                                </p:outputPanel>
+                            </h:form>
+                        </p:dialog>
+                        <p:dialog header="Confirmar" widgetVar="dlAlta" modal="true"   visible="false"  resizable="true" responsive="true" styleClass="ui-panelgrid-blank" appendTo="@(body)">
+                            <h:form target="_blank">
+                                <p:outputPanel id="dlDarDealta" style="text-align:center; width: 100%">
+                                    <p:panelGrid id="panelAlta" > 
+
+                                        <h:outputText value="¿Desea dar de alta esta área?" />
+                                    </p:panelGrid>
+                                    <br></br> 
+                                    <hr></hr>
+                                    <p:commandButton id="btnGuardarAlta" actionListener="#{departamentoBean.darDeAlta}" update=":padding" style="#{areaBean.btnNuevo}"    value="Si"> 
+                                    </p:commandButton>
+                                    <p:commandButton id="btnCancelAlta" actionListener="#{departamentoBean.enableShowData}" update=":padding"  style="#{areaBean.btnCancelar}"   value="No"> 
+                                    </p:commandButton>
+                                </p:outputPanel>
+                            </h:form>
+                        </p:dialog>
+
+
+
+                    </p:outputPanel>
+                    <!-- Formulario Crear -->
+
+                    <p:outputPanel rendered="#{departamentoBean.showCreate}">
+
+                        <h:form id="fDepartamentos" >
+                            <p:panel id="basic" header="Agregar departamento"  style="width: 100%; margin: auto; margin-bottom: 20px">
+                                <p:panelGrid id="main-panel"  style="width: 100%; margin: auto;">
+                                    <p:row>
+                                        <p:column colspan="1">
+
+                                            <h:outputText value="Nombre:"/>
+
+                                        </p:column>
+                                    </p:row>
+                                    <p:row>
+                                        <p:column>
+
+                                            <p:inputText     style="width: 100%; text-transform: uppercase" value="#{departamentoBean.departamentos.nombreDepartamento}" placeholder="Introduzca el nombre del departamento" id="tNombre"  >  </p:inputText>
+
+                                            <h:outputText value="#{departamentoBean.msgNombre}" style=" color:  red" />
+                                            <h:outputText value="#{departamentoBean.msgNombreRepetido}" style=" color:  red" />
+
+                                        </p:column>
+                                    </p:row>
+
+                                    <p:row>
+                                        <p:column >
+                                            <br></br>
+                                            <center>
+                                                <div class="buttons">
+                                                    <p:commandButton value="Guardar" id="btnGuardar"  style="#{departamentoBean.btnCrear}" icon="fa fa-check"  action="#{departamentoBean.validarFormulario}" update=":padding" > 
+                                                    </p:commandButton>
+                                                    <p:commandButton value="Limpiar" id="btnClean" style="#{departamentoBean.btnLimpiar}"  actionListener="#{departamentoBean.limpiar(0)}" update=":padding" icon="fa fa-fw fa-minus"/>
+                                                    <p:commandButton value="Cancelar" id="btnCancel"   style="#{departamentoBean.btnCancelar}" icon="fa fa-fw fa-close" actionListener="#{departamentoBean.limpiar(1)}" update=":padding" />
+                                                </div>
+                                            </center>
+                                        </p:column>
+                                    </p:row>
+                                </p:panelGrid>
+
+                            </p:panel>
+                        </h:form>
+
+                        <p:dialog header="Confirmar" widgetVar="pgGuardar" modal="true"  visible="#{departamentoBean.estadoFormulario}" resizable="true" responsive="true" styleClass="ui-panelgrid-blank" appendTo="@(body)">
+                            <h:form>
+                                <p:outputPanel style="text-align:center;">
+                                    <p:panelGrid>
+                                        <h:outputText value="¿Desea guardar este departamento?"/>
+                                    </p:panelGrid>
+                                    <hr></hr>
+                                    <center>
+                                        <p:commandButton style="#{departamentoBean.btnNuevo}" value="Si" actionListener="#{departamentoBean.crear}"   oncomplete="PF('pgGuardar').hide()"  title="Cerrar" update=":padding">
+                                        </p:commandButton>
+                                        <p:commandButton oncomplete="PF('pgGuardar').hide()" style="#{departamentoBean.btnCancelar}"  value="No"> 
+                                            <f:setPropertyActionListener value="#{false}" target="#{departamentoBean.estadoFormulario}" />
+                                        </p:commandButton>
+                                    </center>
+                                </p:outputPanel>
+                            </h:form>
+                        </p:dialog>
+                    </p:outputPanel>
+
+
+                    <!-- fin formulario crear-->
+                    <!-- Actualizar-->
+                    <p:outputPanel rendered="#{departamentoBean.showUpdate}">
+                        <h:form id="fDepartamentosModifcar" >
+                            <p:panel id="basic" header="Modificar departamento"  style="width: 100%; margin: auto; margin-bottom: 20px">
+                                <p:panelGrid id="panelModificar"  style="width: 100%; margin: auto;">
+                                    <p:row>
+                                        <p:column colspan="1">
+
+                                            <h:outputText value="Nombre:"/>
+
+                                        </p:column>
+                                    </p:row>
+                                    <p:row>
+                                        <p:column>
+
+                                            <p:inputText  id="tNombre"   value="#{departamentoBean.departamentoSeleccionado.nombreDepartamento}"  style="width: 100%; text-transform: uppercase">  </p:inputText>
+
+                                            <h:outputText value="#{departamentoBean.msgNombre}" style=" color:  red" />
+                                            <h:outputText value="#{departamentoBean.msgNombreRepetido}" style=" color:  red" />
+                                        </p:column>
+                                    </p:row>
+
+                                    <p:row>
+                                        <p:column >
+                                            <br></br>
+                                            <center>
+                                                <div class="buttons">
+                                                    <p:commandButton value="Guardar" id="btnGuardar"  style="#{departamentoBean.btnCrear}" icon="fa fa-check" update=":padding"  action="#{departamentoBean.validarFormularioModificar}" > 
+                                                    </p:commandButton>
+                                                    <p:commandButton value="Cancelar" id="btnCancel"   style="#{departamentoBean.btnCancelar}" icon="fa fa-fw fa-close" actionListener="#{departamentoBean.enableShowData}" update=":padding" />
+                                                </div>
+                                            </center>
+                                        </p:column>
+                                    </p:row>
+                                </p:panelGrid>
+                            </p:panel>
+                        </h:form>
+
+                        <p:dialog header="Confirmar" widgetVar="pgModificar" modal="true"  visible="#{departamentoBean.estadoFormulario}" resizable="true" responsive="true" styleClass="ui-panelgrid-blank" appendTo="@(body)">
+                            <p:outputPanel style="text-align:center;">
+                                <h:form target="_blanck">
+                                    <p:panelGrid>
+                                        <h:outputText value="¿Desea modificar este departamento?"/>
+                                    </p:panelGrid>
+                                    <hr></hr>
+                                    <center>
+                                        <p:commandButton  style="#{departamentoBean.btnNuevo}" value="Si"  actionListener="#{departamentoBean.modificar}" update=":padding"  oncomplete="PF('pgModificar').hide()"  title="Cerrar"  >
+                                        </p:commandButton>
+                                        <p:commandButton oncomplete="PF('pgModificar').hide()" style="#{departamentoBean.btnCancelar}"  value="No"> 
+                                            <f:setPropertyActionListener value="#{false}" target="#{departamentoBean.estadoFormulario}" />
+                                        </p:commandButton>
+                                    </center>
+                                </h:form>
+                            </p:outputPanel>
+                        </p:dialog>
+
+                    </p:outputPanel>
+
+                </p:outputPanel>
+            </ui:define>
+
+            <ui:define name="aux">
+                <script>
+                    $(document).ready(function () {
+                        $("#conf").addClass("active");
+                    });
+                </script>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>
